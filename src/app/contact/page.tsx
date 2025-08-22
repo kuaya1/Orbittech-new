@@ -47,7 +47,7 @@ ${formData.message}
       `);
       
       // Open email client with pre-filled information
-      window.location.href = `mailto:contact@theorbittech.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:info@theorbittech.com?subject=${subject}&body=${body}`;
       
       // Show success message
       alert('Thank you for your message! Your email client should open with your request. We\'ll get back to you within 24 hours.');
@@ -237,14 +237,14 @@ ${formData.message}
                   lineHeight: 'var(--leading-relaxed)',
                 }}>
                   <a 
-                    href="mailto:contact@theorbittech.com" 
+                    href="mailto:info@theorbittech.com" 
                     style={{
                       color: 'var(--accent-blue)',
                       textDecoration: 'none',
                       fontWeight: 'var(--font-weight-medium)',
                     }}
                   >
-                    contact@theorbittech.com
+                    info@theorbittech.com
                   </a>
                 </p>
               </div>
@@ -304,7 +304,7 @@ ${formData.message}
                 <Button 
                   variant="secondary" 
                   size="md"
-                  onClick={() => window.location.href = 'mailto:contact@theorbittech.com'}
+                  onClick={() => window.location.href = 'mailto:info@theorbittech.com'}
                   className="w-full"
                 >
                   Send Email

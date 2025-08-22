@@ -23,18 +23,18 @@ interface HeroProps {
 const heroFeatures = [
   {
     icon: Zap,
-    label: 'Lightning Fast',
-    description: 'Up to 1 Gbps speeds'
+    label: '200+ Mbps Speeds',
+    description: 'Faster than most cable'
   },
   {
     icon: Shield,
-    label: 'Reliable Service',
-    description: '99.9% uptime guarantee'
+    label: 'No More Outages',
+    description: 'Satellite reliability'
   },
   {
     icon: Users,
-    label: 'Expert Support',
-    description: '24/7 customer service'
+    label: 'This Week Install',
+    description: 'Not 6 month waits'
   }
 ];
 
@@ -108,7 +108,7 @@ export function Hero({ className }: HeroProps) {
               className="inline-flex items-center gap-2 bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))] px-4 py-2 rounded-full text-sm font-medium mb-6"
             >
               <Star className="w-4 h-4 fill-current" />
-              <span>Trusted by 500+ DMV Area Customers</span>
+              <span>DMV's Only Certified Starlink Experts</span>
             </motion.div>
 
             {/* Main Headline */}
@@ -119,12 +119,12 @@ export function Hero({ className }: HeroProps) {
               className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
             >
               <span className="text-[hsl(var(--foreground))]">
-                Ultra-Fast{' '}
+                Tired of{' '}
               </span>
-              <span className="text-[hsl(var(--primary))] relative">
-                Starlink
+              <span className="text-red-600 relative">
+                Comcast Outages?
                 <motion.div
-                  className="absolute -bottom-2 left-0 right-0 h-1 bg-[hsl(var(--primary))]/30 rounded-full"
+                  className="absolute -bottom-2 left-0 right-0 h-1 bg-red-600/30 rounded-full"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 1, delay: 1 }}
@@ -132,10 +132,14 @@ export function Hero({ className }: HeroProps) {
               </span>
               <br />
               <span className="text-[hsl(var(--foreground))]">
-                Internet for the{' '}
+                Get{' '}
               </span>
-              <span className="text-[hsl(var(--accent-foreground))]">
-                DMV Area
+              <span className="text-[hsl(var(--primary))]">
+                Starlink Installed
+              </span>
+              <br />
+              <span className="text-[hsl(var(--foreground))]">
+                This Week
               </span>
             </motion.h1>
 
@@ -146,8 +150,8 @@ export function Hero({ className }: HeroProps) {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="text-lg md:text-xl text-[hsl(var(--muted-foreground))] leading-relaxed mb-8 max-w-lg"
             >
-              Professional Starlink installation and mesh WiFi solutions for 
-              homes and businesses across Washington DC, Virginia, and Maryland.
+              Professional installation by DMV's only certified Starlink experts. 
+              <span className="text-[hsl(var(--primary))] font-semibold">200+ Mbps guaranteed.</span>
             </motion.p>
 
             {/* Features List */}

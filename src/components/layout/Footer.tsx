@@ -56,7 +56,7 @@ const socialLinks = [
 const contactInfo = [
   {
     icon: MapPin,
-    text: '1234 Technology Drive, Reston, VA 20190'
+    text: 'Reston, VA 20190'
   },
   {
     icon: Phone,
@@ -65,8 +65,8 @@ const contactInfo = [
   },
   {
     icon: Mail,
-    text: 'contact@theorbittech.com',
-    href: 'mailto:contact@theorbittech.com'
+    text: 'info@theorbittech.com',
+    href: 'mailto:info@theorbittech.com'
   }
 ];
 

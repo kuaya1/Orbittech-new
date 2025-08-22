@@ -156,7 +156,7 @@ Message:
 ${formData.message}
       `);
       
-      window.location.href = `mailto:contact@theorbittech.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:info@theorbittech.com?subject=${subject}&body=${body}`;
       alert('Thank you for your interest in mesh WiFi setup! Your email client should open with your request. We\'ll contact you within 24 hours to schedule your free WiFi analysis.');
       
       // Reset form

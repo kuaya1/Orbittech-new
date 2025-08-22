@@ -142,9 +142,21 @@ export function ServiceCard({
             transition={{ duration: 0.3, delay: 0.7 }}
             className="mb-6"
           >
-            <span className="font-headline text-xl font-semibold text-accent-green">
-              Starting at {price}
-            </span>
+            <div className="font-headline text-xl font-semibold text-accent-green">
+              Installation: {price}
+            </div>
+            {title.toLowerCase().includes('starlink') && (
+              <div className="text-sm text-text-secondary mt-1">
+                + $120/month service
+              </div>
+            )}
+            {title.toLowerCase().includes('starlink') && (
+              <div className="inline-block mt-2">
+                <span className="bg-accent-green/10 text-accent-green text-xs px-2 py-1 rounded-full">
+                  Free Site Assessment
+                </span>
+              </div>
+            )}
           </motion.div>
         )}
 
