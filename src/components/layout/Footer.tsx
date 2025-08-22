@@ -80,7 +80,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-brand-navy text-text-inverse">
+    <footer className="bg-[hsl(var(--secondary))] text-[hsl(var(--primary-foreground))]">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-16 lg:py-20">
@@ -99,17 +99,17 @@ export function Footer() {
                   className="inline-flex items-center gap-3 mb-6 group"
                 >
                   <div className="relative">
-                    <div className="w-10 h-10 bg-accent-blue rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                      <Satellite className="w-6 h-6 text-text-inverse" />
+                    <div className="w-10 h-10 bg-[hsl(var(--primary))] rounded-[var(--radius)] flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                      <Satellite className="w-6 h-6 text-[hsl(var(--primary-foreground))]" />
                     </div>
                   </div>
-                  <span className="font-headline text-2xl font-bold">
+                  <span className="font-bold text-2xl">
                     Orbit Tech
                   </span>
                 </Link>
 
                 {/* Description */}
-                <p className="text-text-inverse/90 leading-relaxed mb-6 max-w-md">
+                <p className="text-[hsl(var(--primary-foreground))]/90 leading-relaxed mb-6 max-w-md">
                   Your trusted partner for cutting-edge internet solutions in the DMV area. 
                   We specialize in Starlink installations, mesh WiFi systems, and business 
                   connectivity solutions.
@@ -126,16 +126,16 @@ export function Footer() {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       className="flex items-start gap-3"
                     >
-                      <item.icon className="w-5 h-5 text-accent-blue mt-0.5 flex-shrink-0" />
+                      <item.icon className="w-5 h-5 text-[hsl(var(--primary))] mt-0.5 flex-shrink-0" />
                       {item.href ? (
                         <a 
                           href={item.href}
-                          className="text-text-inverse/90 hover:text-accent-blue transition-colors duration-200"
+                          className="text-[hsl(var(--primary-foreground))]/90 hover:text-[hsl(var(--primary))] transition-colors duration-200"
                         >
                           {item.text}
                         </a>
                       ) : (
-                        <span className="text-text-inverse/90">{item.text}</span>
+                        <span className="text-[hsl(var(--primary-foreground))]/90">{item.text}</span>
                       )}
                     </motion.div>
                   ))}
@@ -148,8 +148,8 @@ export function Footer() {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="flex items-start gap-3 pt-2"
                   >
-                    <Clock className="w-5 h-5 text-accent-blue mt-0.5 flex-shrink-0" />
-                    <div className="text-text-inverse/90">
+                    <Clock className="w-5 h-5 text-[hsl(var(--primary))] mt-0.5 flex-shrink-0" />
+                    <div className="text-[hsl(var(--primary-foreground))]/90">
                       {businessHours.map((hours, index) => (
                         <div key={index} className="text-sm">
                           {hours}
@@ -170,7 +170,7 @@ export function Footer() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: sectionIndex * 0.1 }}
                 >
-                  <h3 className="font-headline text-lg font-semibold mb-6">
+                  <h3 className="font-semibold text-lg mb-6">
                     {section.title}
                   </h3>
                   <ul className="space-y-3">
@@ -187,7 +187,7 @@ export function Footer() {
                       >
                         <Link 
                           href={link.href}
-                          className="text-text-inverse/80 hover:text-accent-blue transition-colors duration-200 block py-1"
+                          className="text-[hsl(var(--primary-foreground))]/80 hover:text-[hsl(var(--primary))] transition-colors duration-200 block py-1"
                         >
                           {link.label}
                         </Link>
@@ -205,11 +205,11 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="mt-12 pt-8 border-t border-text-inverse/20"
+            className="mt-12 pt-8 border-t border-[hsl(var(--primary-foreground))]/20"
           >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
               <div>
-                <h4 className="font-headline text-lg font-semibold mb-4">
+                <h4 className="font-semibold text-lg mb-4">
                   Follow Us
                 </h4>
                 <div className="flex gap-4">
@@ -221,7 +221,7 @@ export function Footer() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-12 h-12 bg-text-inverse/10 hover:bg-accent-blue rounded-lg flex items-center justify-center transition-all duration-200 group"
+                        className="w-12 h-12 bg-[hsl(var(--primary-foreground))]/10 hover:bg-[hsl(var(--primary))] rounded-[var(--radius)] flex items-center justify-center transition-all duration-200 group"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         initial={{ opacity: 0, scale: 0.8 }}
@@ -230,7 +230,7 @@ export function Footer() {
                         transition={{ duration: 0.3, delay: index * 0.1 }}
                         aria-label={social.label}
                       >
-                        <IconComponent className="w-5 h-5 text-text-inverse group-hover:scale-110 transition-transform duration-200" />
+                        <IconComponent className="w-5 h-5 text-[hsl(var(--primary-foreground))] group-hover:scale-110 transition-transform duration-200" />
                       </motion.a>
                     );
                   })}
@@ -239,10 +239,10 @@ export function Footer() {
 
               {/* Service Areas */}
               <div className="text-right">
-                <h4 className="font-headline text-lg font-semibold mb-2">
+                <h4 className="font-semibold text-lg mb-2">
                   Service Areas
                 </h4>
-                <p className="text-text-inverse/80 text-sm">
+                <p className="text-[hsl(var(--primary-foreground))]/80 text-sm">
                   Maryland • Virginia • Washington DC
                 </p>
               </div>
@@ -256,9 +256,9 @@ export function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="border-t border-text-inverse/20 py-6"
+          className="border-t border-[hsl(var(--primary-foreground))]/20 py-6"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-text-inverse/70">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-[hsl(var(--primary-foreground))]/70">
             <div className="flex items-center gap-2">
               <Wifi className="w-4 h-4" />
               <span>
@@ -269,13 +269,13 @@ export function Footer() {
             <div className="flex gap-6">
               <Link 
                 href="/privacy"
-                className="hover:text-accent-blue transition-colors duration-200"
+                className="hover:text-[hsl(var(--primary))] transition-colors duration-200"
               >
                 Privacy Policy
               </Link>
               <Link 
                 href="/terms"
-                className="hover:text-accent-blue transition-colors duration-200"
+                className="hover:text-[hsl(var(--primary))] transition-colors duration-200"
               >
                 Terms of Service
               </Link>

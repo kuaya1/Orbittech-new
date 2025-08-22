@@ -1,125 +1,92 @@
 "use client";
 
 import React from 'react';
+import { motion, HTMLMotionProps } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
-export interface ButtonProps {
+export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'tertiary';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'outline';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   disabled?: boolean;
-  onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
+  isLoading?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
   className?: string;
-  style?: React.CSSProperties;
 }
+
+const buttonVariants = {
+  primary: "bg-accent-blue hover:bg-brand-navy text-text-inverse shadow-md hover:shadow-lg",
+  secondary: "bg-brand-slate hover:bg-brand-navy text-text-inverse shadow-md hover:shadow-lg",
+  tertiary: "bg-transparent border-2 border-accent-blue text-accent-blue hover:bg-accent-blue hover:text-text-inverse",
+  ghost: "bg-transparent text-text-primary hover:bg-brand-sky hover:text-brand-navy",
+  outline: "bg-transparent border border-border-medium text-text-primary hover:bg-brand-sky hover:border-brand-navy",
+};
+
+const sizeVariants = {
+  sm: "px-3 py-2 text-sm font-medium",
+  md: "px-4 py-2.5 text-base font-semibold",
+  lg: "px-6 py-3 text-lg font-semibold",
+  xl: "px-8 py-4 text-xl font-bold",
+};
 
 export function Button({
   children,
   variant = 'primary',
   size = 'md',
   disabled = false,
-  onClick,
-  type = 'button',
-  className = '',
-  style = {},
+  isLoading = false,
+  leftIcon,
+  rightIcon,
+  className,
+  ...props
 }: ButtonProps) {
-  const getButtonStyles = () => {
-    const baseStyles: React.CSSProperties = {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: 'var(--font-headline)',
-      fontWeight: 'var(--font-weight-semibold)',
-      borderRadius: 'var(--radius-lg)',
-      border: 'none',
-      cursor: disabled ? 'not-allowed' : 'pointer',
-      transition: 'all 0.2s ease-in-out',
-      opacity: disabled ? 0.5 : 1,
-      outline: 'none',
-    };
+  const baseClasses = [
+    "inline-flex items-center justify-center",
+    "font-headline rounded-lg",
+    "transition-all duration-200 ease-in-out",
+    "focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2",
+    "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
+    "relative overflow-hidden",
+  ];
 
-    const sizeStyles = {
-      sm: {
-        padding: 'var(--space-sm) var(--space-md)',
-        fontSize: 'var(--text-sm)',
-        lineHeight: 'var(--leading-tight)',
-      },
-      md: {
-        padding: 'var(--space-md) var(--space-lg)',
-        fontSize: 'var(--text-base)',
-        lineHeight: 'var(--leading-normal)',
-      },
-      lg: {
-        padding: 'var(--space-lg) var(--space-xl)',
-        fontSize: 'var(--text-lg)',
-        lineHeight: 'var(--leading-normal)',
-      },
-    };
+  const classes = cn(
+    baseClasses,
+    buttonVariants[variant],
+    sizeVariants[size],
+    className
+  );
 
-    const variantStyles = {
-      primary: {
-        backgroundColor: 'var(--accent-blue)',
-        color: 'var(--text-inverse)',
-        boxShadow: 'var(--shadow-sm)',
-      },
-      secondary: {
-        backgroundColor: 'var(--brand-slate)',
-        color: 'var(--text-inverse)',
-        boxShadow: 'var(--shadow-sm)',
-      },
-      tertiary: {
-        backgroundColor: 'transparent',
-        color: 'var(--accent-blue)',
-        border: '2px solid var(--accent-blue)',
-      },
-    };
-
-    return {
-      ...baseStyles,
-      ...sizeStyles[size],
-      ...variantStyles[variant],
-    };
-  };
-
-  const getHoverStyles = () => {
-    const hoverStyles = {
-      primary: {
-        backgroundColor: 'var(--brand-navy)',
-        boxShadow: 'var(--shadow-md)',
-      },
-      secondary: {
-        backgroundColor: 'var(--brand-navy)',
-        boxShadow: 'var(--shadow-md)',
-      },
-      tertiary: {
-        backgroundColor: 'var(--accent-blue)',
-        color: 'var(--text-inverse)',
-      },
-    };
-    return hoverStyles[variant];
-  };
-
-  const [isHovered, setIsHovered] = React.useState(false);
-
-  const buttonStyles = {
-    ...getButtonStyles(),
-    ...(isHovered && !disabled ? getHoverStyles() : {}),
-    ...style,
+  const motionProps = {
+    whileHover: disabled || isLoading ? {} : { scale: 1.02, y: -1 },
+    whileTap: disabled || isLoading ? {} : { scale: 0.98 },
   };
 
   return (
-    <button
-      type={type}
-      style={buttonStyles}
-      onClick={onClick}
-      disabled={disabled}
-      className={className}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocus={() => setIsHovered(true)}
-      onBlur={() => setIsHovered(false)}
+    <motion.button
+      className={classes}
+      disabled={disabled || isLoading}
+      {...motionProps}
+      {...props}
     >
-      {children}
-    </button>
+      {/* Loading spinner */}
+      {isLoading && (
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center bg-inherit"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        </motion.div>
+      )}
+      
+      {/* Content */}
+      <div className={cn("flex items-center gap-2", isLoading && "opacity-0")}>
+        {leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+        {children}
+        {rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
+      </div>
+    </motion.button>
   );
 }

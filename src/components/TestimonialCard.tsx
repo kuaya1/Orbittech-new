@@ -1,6 +1,9 @@
 "use client";
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { Quote, Star, MapPin, Wrench } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export interface TestimonialCardProps {
   quote: string;
@@ -8,99 +11,132 @@ export interface TestimonialCardProps {
   location: string;
   service: string;
   rating: number;
+  className?: string;
+  delay?: number;
 }
 
-export function TestimonialCard({ quote, author, location, service, rating }: TestimonialCardProps) {
-  const cardStyles: React.CSSProperties = {
-    backgroundColor: 'var(--brand-white)',
-    border: '1px solid var(--border-light)',
-    borderRadius: 'var(--radius-xl)',
-    padding: 'var(--space-2xl)',
-    boxShadow: 'var(--shadow-md)',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'relative',
-  };
-
-  const quoteStyles: React.CSSProperties = {
-    fontFamily: 'var(--font-body)',
-    fontSize: 'var(--text-lg)',
-    color: 'var(--text-primary)',
-    lineHeight: 'var(--leading-relaxed)',
-    marginBottom: 'var(--space-lg)',
-    fontStyle: 'italic',
-    flex: 1,
-  };
-
-  const ratingStyles: React.CSSProperties = {
-    display: 'flex',
-    gap: '2px',
-    marginBottom: 'var(--space-md)',
-  };
-
-  const authorStyles: React.CSSProperties = {
-    fontFamily: 'var(--font-headline)',
-    fontSize: 'var(--text-base)',
-    fontWeight: 'var(--font-weight-semibold)',
-    color: 'var(--brand-navy)',
-    marginBottom: 'var(--space-xs)',
-  };
-
-  const locationStyles: React.CSSProperties = {
-    fontFamily: 'var(--font-body)',
-    fontSize: 'var(--text-sm)',
-    color: 'var(--text-secondary)',
-    marginBottom: 'var(--space-xs)',
-  };
-
-  const serviceStyles: React.CSSProperties = {
-    fontFamily: 'var(--font-body)',
-    fontSize: 'var(--text-sm)',
-    color: 'var(--accent-blue)',
-    fontWeight: 'var(--font-weight-medium)',
-  };
-
-  const quoteIconStyles: React.CSSProperties = {
-    position: 'absolute',
-    top: 'var(--space-lg)',
-    right: 'var(--space-lg)',
-    fontSize: '2rem',
-    color: 'var(--brand-sky)',
-    opacity: 0.5,
+export function TestimonialCard({ 
+  quote, 
+  author, 
+  location, 
+  service, 
+  rating,
+  className,
+  delay = 0
+}: TestimonialCardProps) {
+  const cardVariants = {
+    initial: { opacity: 0, y: 30, scale: 0.95 },
+    animate: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1
+    }
   };
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
-      <span 
+      <motion.div
         key={index}
-        style={{
-          color: index < rating ? 'var(--accent-amber)' : 'var(--border-medium)',
-          fontSize: 'var(--text-lg)',
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ 
+          duration: 0.3, 
+          delay: delay + 0.3 + (index * 0.1),
+          type: "spring",
+          stiffness: 200
         }}
       >
-        ★
-      </span>
+        <Star 
+          className={cn(
+            "w-5 h-5",
+            index < rating 
+              ? "text-accent-amber fill-accent-amber" 
+              : "text-border-medium"
+          )}
+        />
+      </motion.div>
     ));
   };
 
   return (
-    <div style={cardStyles}>
-      <div style={quoteIconStyles}>"</div>
-      
-      <div style={ratingStyles}>
+    <motion.div
+      variants={cardVariants}
+      initial="initial"
+      animate="animate"
+      transition={{ 
+        duration: 0.6,
+        delay,
+        ease: "easeOut"
+      }}
+      whileHover={{ 
+        y: -5,
+        transition: { duration: 0.2 }
+      }}
+      className={cn(
+        "relative bg-white rounded-2xl p-8 shadow-lg border border-border-light h-full flex flex-col",
+        "hover:shadow-xl hover:border-accent-blue/30 transition-all duration-300 group",
+        className
+      )}
+    >
+      {/* Quote Icon */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0, rotate: -45 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        transition={{ duration: 0.5, delay: delay + 0.2 }}
+        className="absolute top-6 right-6 text-brand-sky/30 group-hover:text-accent-blue/30 transition-colors duration-300"
+      >
+        <Quote className="w-8 h-8" />
+      </motion.div>
+
+      {/* Rating */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: delay + 0.1 }}
+        className="flex items-center gap-1 mb-6"
+      >
         {renderStars(rating)}
-      </div>
+      </motion.div>
 
-      <blockquote style={quoteStyles}>
-        "{quote}"
-      </blockquote>
+      {/* Quote */}
+      <motion.blockquote
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: delay + 0.4 }}
+        className="text-text-primary text-lg leading-relaxed italic flex-1 mb-6 relative"
+      >
+        <span className="text-accent-blue text-2xl absolute -left-2 -top-2">"</span>
+        {quote}
+        <span className="text-accent-blue text-2xl">"</span>
+      </motion.blockquote>
 
-      <div>
-        <div style={authorStyles}>{author}</div>
-        <div style={locationStyles}>{location}</div>
-        <div style={serviceStyles}>{service}</div>
-      </div>
-    </div>
+      {/* Author Info */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: delay + 0.5 }}
+        className="space-y-2"
+      >
+        {/* Author Name */}
+        <div className="font-headline text-base font-semibold text-brand-navy">
+          {author}
+        </div>
+
+        {/* Location */}
+        <div className="flex items-center gap-2 text-sm text-text-secondary">
+          <MapPin className="w-4 h-4 flex-shrink-0" />
+          <span>{location}</span>
+        </div>
+
+        {/* Service */}
+        <div className="flex items-center gap-2 text-sm text-accent-blue font-medium">
+          <Wrench className="w-4 h-4 flex-shrink-0" />
+          <span>{service}</span>
+        </div>
+      </motion.div>
+
+      {/* Hover Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-brand-navy/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+    </motion.div>
   );
 }

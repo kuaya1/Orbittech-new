@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, Phone } from 'lucide-react';
-import { Button } from './Button';
+import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
 interface NavigationItem {
@@ -87,10 +87,10 @@ export function Header() {
         <Link
           href={item.href}
           className={cn(
-            "flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+            "flex items-center gap-1 px-3 py-2 rounded-[var(--radius)] text-sm font-medium transition-colors duration-200",
             isActive
-              ? "text-brand-navy bg-brand-sky"
-              : "text-text-primary hover:text-brand-navy hover:bg-brand-sky"
+              ? "text-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10"
+              : "text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/10"
           )}
         >
           {item.label}
@@ -113,7 +113,7 @@ export function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-lg border border-border-light z-50"
+                className="absolute top-full left-0 mt-1 w-64 bg-[hsl(var(--background))] rounded-[var(--radius)] shadow-lg border border-gray-200 z-50"
               >
                 <div className="py-2">
                   {item.submenu?.map((subItem) => (
@@ -121,8 +121,8 @@ export function Header() {
                       key={subItem.href}
                       href={subItem.href}
                       className={cn(
-                        "block px-4 py-2 text-sm text-text-secondary hover:text-brand-navy hover:bg-brand-sky transition-colors duration-200",
-                        isActiveLink(subItem.href) && "text-brand-navy bg-brand-sky"
+                        "block px-4 py-2 text-sm text-[hsl(var(--muted))] hover:text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/10 transition-colors duration-200",
+                        isActiveLink(subItem.href) && "text-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10"
                       )}
                     >
                       {subItem.label}
@@ -151,8 +151,8 @@ export function Header() {
             className={cn(
               "flex-1 block px-4 py-3 text-base font-medium transition-colors duration-200",
               isActive
-                ? "text-brand-navy bg-brand-sky"
-                : "text-text-primary hover:text-brand-navy hover:bg-brand-sky"
+                ? "text-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10"
+                : "text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/10"
             )}
           >
             {item.label}
@@ -160,7 +160,7 @@ export function Header() {
           {hasSubmenu && (
             <button
               onClick={() => setActiveDropdown(isExpanded ? null : item.label)}
-              className="p-3 text-text-secondary hover:text-brand-navy"
+              className="p-3 text-[hsl(var(--muted))] hover:text-[hsl(var(--primary))]"
             >
               <ChevronDown 
                 className={cn(
@@ -181,7 +181,7 @@ export function Header() {
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="overflow-hidden bg-brand-sky/50"
+                className="overflow-hidden bg-[hsl(var(--primary))]/5"
               >
                 {item.submenu?.map((subItem) => (
                   <Link
@@ -189,8 +189,8 @@ export function Header() {
                     href={subItem.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "block pl-8 pr-4 py-2 text-sm text-text-secondary hover:text-brand-navy transition-colors duration-200",
-                      isActiveLink(subItem.href) && "text-brand-navy font-medium"
+                      "block pl-8 pr-4 py-2 text-sm text-[hsl(var(--muted))] hover:text-[hsl(var(--primary))] transition-colors duration-200",
+                      isActiveLink(subItem.href) && "text-[hsl(var(--primary))] font-medium"
                     )}
                   >
                     {subItem.label}
@@ -212,8 +212,8 @@ export function Header() {
       className={cn(
         "sticky top-0 z-50 w-full border-b transition-all duration-300",
         isScrolled 
-          ? "bg-white/95 backdrop-blur-md border-border-light shadow-md" 
-          : "bg-white border-border-light"
+          ? "bg-[hsl(var(--background))]/95 backdrop-blur-md border-gray-200 shadow-md" 
+          : "bg-[hsl(var(--background))] border-gray-200"
       )}
     >
       <div className="container mx-auto px-4 lg:px-8">
@@ -221,7 +221,7 @@ export function Header() {
           {/* Logo */}
           <Link 
             href="/" 
-            className="flex items-center gap-3 font-headline text-xl font-bold text-brand-navy hover:opacity-80 transition-opacity duration-200"
+            className="flex items-center gap-3 font-bold text-xl text-[hsl(var(--primary))] hover:opacity-80 transition-opacity duration-200"
           >
             <img 
               src="/Starlink Dmv (33).png" 
@@ -242,11 +242,11 @@ export function Header() {
           <div className="flex items-center gap-4">
             {/* Phone Number - Hidden on mobile */}
             <a 
-              href="tel:+15551234567"
-              className="hidden xl:flex items-center gap-2 text-text-secondary hover:text-brand-navy transition-colors duration-200"
+              href="tel:+15719996915"
+              className="hidden xl:flex items-center gap-2 text-[hsl(var(--muted))] hover:text-[hsl(var(--primary))] transition-colors duration-200"
             >
               <Phone className="w-4 h-4" />
-              <span className="text-sm font-medium">(555) 123-4567</span>
+              <span className="text-sm font-medium">(571) 999-6915</span>
             </a>
 
             {/* CTA Button */}
@@ -262,7 +262,7 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-text-primary hover:text-brand-navy transition-colors duration-200"
+              className="lg:hidden p-2 text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-200"
               aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? (
@@ -283,7 +283,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden border-t border-border-light bg-white overflow-hidden"
+            className="lg:hidden border-t border-gray-200 bg-[hsl(var(--background))] overflow-hidden"
           >
             <nav className="py-4">
               {navigationItems.map((item) => (
@@ -293,11 +293,11 @@ export function Header() {
               {/* Mobile CTA */}
               <div className="px-4 pt-4 space-y-3">
                 <a 
-                  href="tel:+15551234567"
-                  className="flex items-center justify-center gap-2 p-3 text-brand-navy bg-brand-sky rounded-lg font-medium"
+                  href="tel:+15719996915"
+                  className="flex items-center justify-center gap-2 p-3 text-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 rounded-[var(--radius)] font-medium"
                 >
                   <Phone className="w-5 h-5" />
-                  Call (555) 123-4567
+                  Call (571) 999-6915
                 </a>
                 <Button 
                   variant="primary" 

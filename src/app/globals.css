@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 19% 27%;
+    --muted: 215 16% 47%;
+    --accent: 142 71% 45%;
+    --radius: 0.5rem;
+  }
+}
+
 :root {
   /* Primary Colors */
   --brand-navy: #1E3A5F;
@@ -86,21 +99,37 @@ body {
   line-height: var(--leading-normal);
   overflow-x: hidden;
 }
-/* Mobile Navigation Styles */
-.desktop-nav {
-  display: flex;
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
 }
 
-.mobile-menu-button {
-  display: none;
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #2563EB, 0 0 0 4px rgba(37, 99, 235, 0.2);
 }
 
-@media (max-width: 768px) {
-  .desktop-nav {
-    display: none;
-  }
-  
-  .mobile-menu-button {
-    display: flex;
-  }
+/* Custom scrollbar styles */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #D1D5DB transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #718096;
 }

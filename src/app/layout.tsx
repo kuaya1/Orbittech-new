@@ -6,12 +6,14 @@ import { Footer } from "@/components/Footer";
 
 const inter = Inter({ 
   subsets: ["latin"], 
-  variable: "--font-body" 
+  variable: "--font-body",
+  display: 'swap',
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ["latin"], 
-  variable: "--font-headline" 
+  variable: "--font-headline",
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -50,16 +52,9 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable}`}>
-      <body style={{
-        fontFamily: 'var(--font-body)',
-        backgroundColor: 'var(--brand-white)',
-        color: 'var(--text-primary)',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
+      <body className="font-body bg-brand-white text-text-primary min-h-screen flex flex-col antialiased">
         <Header />
-        <main style={{ flex: 1 }}>
+        <main className="flex-1">
           {children}
         </main>
         <Footer />
