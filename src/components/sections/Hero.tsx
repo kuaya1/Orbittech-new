@@ -9,7 +9,6 @@ import {
   Wifi, 
   ArrowRight, 
   Star,
-  CheckCircle,
   Zap,
   Shield,
   Users

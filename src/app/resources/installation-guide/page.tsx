@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components";
+import { Check } from 'lucide-react';
 
 export default function InstallationGuidePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);

@@ -608,7 +608,7 @@ export default function AboutPage() {
               Get Your Free Quote
             </Button>
             <Button 
-              variant="tertiary" 
+              variant="ghost" 
               size="lg"
               onClick={() => window.location.href = 'tel:5719996915'}
             >

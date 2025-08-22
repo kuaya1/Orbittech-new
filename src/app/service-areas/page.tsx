@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Button } from "@/components";
+import { Check } from 'lucide-react';
 
 export default function ServiceAreasPage() {
   // Styles
@@ -114,7 +115,7 @@ export default function ServiceAreasPage() {
               Get Free Site Assessment
             </Button>
             <Button 
-              variant="tertiary" 
+              variant="ghost" 
               size="lg"
               onClick={() => window.location.href = 'tel:5719996915'}
             >
@@ -555,7 +556,7 @@ export default function ServiceAreasPage() {
               Schedule Free Assessment
             </Button>
             <Button 
-              variant="tertiary" 
+              variant="ghost" 
               size="lg"
               onClick={() => window.location.href = 'tel:5719996915'}
             >

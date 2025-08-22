@@ -297,7 +297,7 @@ ${formData.message}
                   variant="primary" 
                   size="md"
                   onClick={() => window.location.href = 'tel:5719996915'}
-                  style={{ width: '100%' }}
+                  className="w-full"
                 >
                   Call Now
                 </Button>
@@ -305,7 +305,7 @@ ${formData.message}
                   variant="secondary" 
                   size="md"
                   onClick={() => window.location.href = 'mailto:contact@theorbittech.com'}
-                  style={{ width: '100%' }}
+                  className="w-full"
                 >
                   Send Email
                 </Button>
@@ -596,7 +596,7 @@ ${formData.message}
                   variant="primary" 
                   size="lg"
                   disabled={isSubmitting}
-                  style={{ width: '100%' }}
+                  className="w-full"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>

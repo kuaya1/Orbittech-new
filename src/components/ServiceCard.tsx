@@ -155,7 +155,7 @@ export function ServiceCard({
           transition={{ duration: 0.3, delay: 0.8 }}
         >
           <Button 
-            variant={isFeatured ? "primary" : "tertiary"}
+            variant={isFeatured ? "primary" : "ghost"}
             size="lg"
             onClick={() => window.location.href = href}
             rightIcon={<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />}

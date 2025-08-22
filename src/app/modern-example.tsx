@@ -3,7 +3,6 @@
 import React from 'react';
 import { Satellite, Wifi, Building2, Shield, Star, Target } from 'lucide-react';
 import { 
-  Hero, 
   Container, 
   Section, 
   ServiceCard, 
@@ -11,6 +10,7 @@ import {
   AnimatedText,
   Button
 } from "@/components";
+import { Hero } from "@/components/Hero";
 
 export default function ModernHomePage() {
   // Services data with proper Lucide icons
@@ -173,7 +173,7 @@ export default function ModernHomePage() {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
+            {services.map((service) => (
               <ServiceCard 
                 key={service.href} 
                 {...service}
@@ -302,14 +302,14 @@ export default function ModernHomePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 variant="primary"
-                size="xl"
+                size="lg"
                 onClick={() => window.location.href = '/contact'}
               >
                 Get Free Quote
               </Button>
               <Button 
-                variant="outline"
-                size="xl"
+                variant="ghost"
+                size="lg"
                 onClick={() => window.location.href = 'tel:5719996915'}
                 className="text-white border-white hover:bg-white hover:text-brand-navy"
               >

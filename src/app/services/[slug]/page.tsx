@@ -662,7 +662,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   variant={pkg.popular ? "primary" : "secondary"}
                   size="lg"
                   onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-                  style={{ width: '100%' }}
+                  className="w-full"
                 >
                   Get Started
                 </Button>
@@ -913,7 +913,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 type="submit"
                 variant="primary" 
                 size="lg"
-                style={{ width: '100%' }}
+                className="w-full"
               >
                 Get Free Quote
               </Button>

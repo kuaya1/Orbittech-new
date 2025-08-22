@@ -448,7 +448,7 @@ ${formData.message}
                   variant={pkg.popular ? "primary" : "secondary"}
                   size="lg"
                   onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-                  style={{ width: '100%' }}
+                  className="w-full"
                 >
                   {pkg.price === 'Custom' ? 'Get Custom Quote' : 'Choose This Package'}
                 </Button>
@@ -857,7 +857,7 @@ ${formData.message}
                 type="submit"
                 variant="primary" 
                 size="lg"
-                style={{ width: '100%' }}
+                className="w-full"
               >
                 Schedule Business Assessment
               </Button>

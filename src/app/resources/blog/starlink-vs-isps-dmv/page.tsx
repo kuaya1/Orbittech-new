@@ -555,7 +555,7 @@ export default function StarlinkVsISPsBlogPage() {
                   Get Free Consultation
                 </Button>
                 <Button 
-                  variant="tertiary" 
+                  variant="ghost" 
                   size="lg"
                   onClick={() => window.location.href = 'tel:5719996915'}
                 >

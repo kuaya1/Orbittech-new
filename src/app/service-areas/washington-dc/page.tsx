@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Button, TestimonialCard } from "@/components";
+import { Check } from 'lucide-react';
 
-export default function WashingtonDCPage() {
+export default function WashingtonDCServiceAreaPage() {
   // Styles
   const containerStyles: React.CSSProperties = {
     maxWidth: '1200px',
@@ -161,7 +162,7 @@ export default function WashingtonDCPage() {
               Get Free Site Assessment
             </Button>
             <Button 
-              variant="tertiary" 
+              variant="ghost" 
               size="lg"
               onClick={() => window.location.href = 'tel:5719996915'}
             >
@@ -602,7 +603,7 @@ export default function WashingtonDCPage() {
               Schedule Free Site Assessment
             </Button>
             <Button 
-              variant="tertiary" 
+              variant="ghost" 
               size="lg"
               onClick={() => window.location.href = 'tel:5719996915'}
             >
