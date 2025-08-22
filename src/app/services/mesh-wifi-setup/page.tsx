@@ -147,8 +147,9 @@ Name: ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone}
 Address: ${formData.address}
-Property Type: ${formData.propertyType}
-Current Internet: ${formData.currentInternet}
+Home Size: ${formData.homeSize}
+Current WiFi: ${formData.currentWiFi}
+Dead Zones: ${formData.deadZones}
 
 Message:
 ${formData.message}
@@ -163,8 +164,9 @@ ${formData.message}
         email: '',
         phone: '',
         address: '',
-        propertyType: '',
-        currentInternet: '',
+        homeSize: '',
+        currentWiFi: '',
+        deadZones: '',
         message: ''
       });
     } catch (error) {

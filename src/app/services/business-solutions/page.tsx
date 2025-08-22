@@ -15,7 +15,10 @@ export default function BusinessSolutionsPage() {
     employees: '',
     currentProvider: '',
     requirements: '',
-    message: ''
+    message: '',
+    address: '',
+    propertyType: '',
+    currentInternet: ''
   });
 
   // Styles
@@ -148,9 +151,12 @@ export default function BusinessSolutionsPage() {
 Name: ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone}
-Address: ${formData.address}
-Property Type: ${formData.propertyType}
-Current Internet: ${formData.currentInternet}
+Company: ${formData.company}
+Title: ${formData.title}
+Business Type: ${formData.businessType}
+Employees: ${formData.employees}
+Current Provider: ${formData.currentProvider}
+Requirements: ${formData.requirements}
 
 Message:
 ${formData.message}
@@ -164,10 +170,16 @@ ${formData.message}
         name: '',
         email: '',
         phone: '',
+        company: '',
+        title: '',
+        businessType: '',
+        employees: '',
+        currentProvider: '',
+        requirements: '',
+        message: '',
         address: '',
         propertyType: '',
-        currentInternet: '',
-        message: ''
+        currentInternet: ''
       });
     } catch (error) {
       console.error('Form submission error:', error);
