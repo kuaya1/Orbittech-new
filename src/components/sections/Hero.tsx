@@ -319,3 +319,4 @@ export function Hero({ className }: HeroProps) {
     </section>
   );
 }
+

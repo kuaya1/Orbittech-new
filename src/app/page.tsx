@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button, ServiceCard, TestimonialCard } from "@/components";
+import { Target, Zap, Shield, Satellite, Wifi, Building2 } from 'lucide-react';
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -22,7 +23,7 @@ export default function Home() {
     {
       title: "Starlink Installation",
       description: "Professional Starlink satellite internet installation with optimal positioning for maximum speed and reliability.",
-      icon: "SATELLITE",
+      icon: Satellite,
       features: [
         "Site survey and optimal placement",
         "Professional mounting and weatherproofing",
@@ -35,7 +36,7 @@ export default function Home() {
     {
       title: "Mesh WiFi Systems",
       description: "Eliminate dead zones with enterprise-grade mesh WiFi systems that provide seamless coverage throughout your property.",
-      icon: "WIFI",
+      icon: Wifi,
       features: [
         "Whole-home WiFi coverage",
         "Seamless device handoff",
@@ -48,7 +49,7 @@ export default function Home() {
     {
       title: "Business Solutions",
       description: "Scalable internet and networking solutions designed for businesses that demand reliability and performance.",
-      icon: "BUSINESS",
+      icon: Building2,
       features: [
         "Redundant internet connections",
         "Enterprise-grade security",
@@ -137,7 +138,7 @@ export default function Home() {
               Get Free Quote
             </Button>
             <Button 
-              variant="tertiary" 
+              variant="ghost" 
               size="lg"
               onClick={() => window.location.href = '/services'}
             >
@@ -411,7 +412,13 @@ export default function Home() {
             gap: 'var(--space-2xl)',
           }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', marginBottom: 'var(--space-lg)' }}>🎯</div>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                marginBottom: 'var(--space-lg)' 
+              }}>
+                <Target className="w-12 h-12 text-blue-600" />
+              </div>
               <h3 style={{
                 fontFamily: 'var(--font-headline)',
                 fontSize: 'var(--text-2xl)',
@@ -427,7 +434,13 @@ export default function Home() {
               </p>
             </div>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', marginBottom: 'var(--space-lg)' }}>⚡</div>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                marginBottom: 'var(--space-lg)' 
+              }}>
+                <Zap className="w-12 h-12 text-yellow-500" />
+              </div>
               <h3 style={{
                 fontFamily: 'var(--font-headline)',
                 fontSize: 'var(--text-2xl)',
@@ -443,7 +456,13 @@ export default function Home() {
               </p>
             </div>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', marginBottom: 'var(--space-lg)' }}>🛡️</div>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                marginBottom: 'var(--space-lg)' 
+              }}>
+                <Shield className="w-12 h-12 text-green-600" />
+              </div>
               <h3 style={{
                 fontFamily: 'var(--font-headline)',
                 fontSize: 'var(--text-2xl)',
@@ -574,7 +593,7 @@ export default function Home() {
               Get Free Quote
             </Button>
             <Button 
-              variant="tertiary" 
+              variant="ghost" 
               size="lg"
               onClick={() => window.location.href = 'tel:5719996915'}
             >
@@ -586,3 +605,4 @@ export default function Home() {
     </>
   );
 }
+

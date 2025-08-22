@@ -286,3 +286,4 @@ export function Footer() {
     </footer>
   );
 }
+

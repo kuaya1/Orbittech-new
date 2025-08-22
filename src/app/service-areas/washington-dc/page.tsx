@@ -265,7 +265,7 @@ export default function WashingtonDCPage() {
                           color: 'var(--accent-green)',
                           fontWeight: 'bold',
                           flexShrink: 0,
-                        }}>✓</span>
+                        }}><Check className="w-4 h-4" /></span>
                         <span style={{
                           fontSize: 'var(--text-sm)',
                           color: 'var(--text-primary)',
@@ -621,3 +621,4 @@ export default function WashingtonDCPage() {
     </>
   );
 }
+

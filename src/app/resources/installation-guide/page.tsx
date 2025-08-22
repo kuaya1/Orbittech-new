@@ -331,7 +331,7 @@ export default function InstallationGuidePage() {
                             color: 'var(--accent-green)',
                             fontWeight: 'bold',
                             flexShrink: 0,
-                          }}>✓</span>
+                          }}><Check className="w-4 h-4" /></span>
                           <span style={{
                             fontSize: 'var(--text-base)',
                             color: 'var(--text-primary)',
@@ -540,3 +540,4 @@ export default function InstallationGuidePage() {
     </>
   );
 }
+

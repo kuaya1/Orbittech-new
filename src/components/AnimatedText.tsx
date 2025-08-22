@@ -58,3 +58,4 @@ export function AnimatedText({
     </motion.div>
   );
 }
+

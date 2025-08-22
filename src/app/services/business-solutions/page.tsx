@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components";
+import { Check } from 'lucide-react';
 
 export default function BusinessSolutionsPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -274,7 +275,7 @@ ${formData.message}
                   fontSize: 'var(--text-xl)',
                   fontWeight: 'var(--font-weight-bold)',
                   flexShrink: 0,
-                }}>✓</span>
+                }}><Check className="w-4 h-4" /></span>
                 <span style={{
                   fontSize: 'var(--text-lg)',
                   color: 'var(--text-primary)',
@@ -438,7 +439,7 @@ ${formData.message}
                       gap: 'var(--space-sm)',
                       marginBottom: 'var(--space-sm)',
                     }}>
-                      <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                      <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                       <span style={{ fontSize: 'var(--text-base)' }}>{feature}</span>
                     </li>
                   ))}
@@ -878,3 +879,4 @@ ${formData.message}
     </>
   );
 }
+

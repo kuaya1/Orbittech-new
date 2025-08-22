@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Button } from "@/components";
+import { Check } from 'lucide-react';
 
-export default function StarlinkVsISPsBlogPost() {
+export default function StarlinkVsISPsBlogPage() {
   // Styles
   const containerStyles: React.CSSProperties = {
     maxWidth: '800px',
@@ -152,19 +153,19 @@ export default function StarlinkVsISPsBlogPost() {
                 margin: 0,
               }}>
                 <li style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
-                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                   <span><strong>Download speeds:</strong> 50-200+ Mbps (typical: 100-150 Mbps)</span>
                 </li>
                 <li style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
-                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                   <span><strong>Upload speeds:</strong> 10-20 Mbps</span>
                 </li>
                 <li style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
-                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                   <span><strong>Latency:</strong> 20-40ms (excellent for gaming and video calls)</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
-                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                   <span><strong>Consistency:</strong> Generally stable with occasional weather-related dips</span>
                 </li>
               </ul>
@@ -437,19 +438,19 @@ export default function StarlinkVsISPsBlogPost() {
               </h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 <li style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
-                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                   <span><strong>Remote Work:</strong> Video conferencing, VPN connections, cloud applications</span>
                 </li>
                 <li style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
-                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                   <span><strong>Streaming:</strong> 4K Netflix, YouTube, multiple simultaneous streams</span>
                 </li>
                 <li style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
-                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                   <span><strong>Gaming:</strong> Online gaming with low latency (20-40ms typical)</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)' }}>
-                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                  <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}><Check className="w-4 h-4" /></span>
                   <span><strong>Rural Properties:</strong> Often the only high-speed option available</span>
                 </li>
               </ul>
@@ -651,3 +652,4 @@ export default function StarlinkVsISPsBlogPost() {
     </>
   );
 }
+

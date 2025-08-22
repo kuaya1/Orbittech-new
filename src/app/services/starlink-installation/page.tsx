@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components";
+import { Check } from 'lucide-react';
 
 export default function StarlinkInstallationPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -319,7 +320,14 @@ ${formData.message}
                   fontSize: 'var(--text-xl)',
                   fontWeight: 'var(--font-weight-bold)',
                   flexShrink: 0,
-                }}>✓</span>
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '24px',
+                  height: '24px',
+                }}>
+                  <Check className="w-5 h-5" />
+                </span>
                 <span style={{
                   fontSize: 'var(--text-lg)',
                   color: 'var(--text-primary)',
@@ -483,16 +491,26 @@ ${formData.message}
                       gap: 'var(--space-sm)',
                       marginBottom: 'var(--space-sm)',
                     }}>
-                      <span style={{ color: 'var(--accent-green)', fontWeight: 'bold' }}>✓</span>
+                      <span style={{ 
+                        color: 'var(--accent-green)', 
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '20px',
+                        height: '20px',
+                      }}>
+                        <Check className="w-4 h-4" />
+                      </span>
                       <span style={{ fontSize: 'var(--text-base)' }}>{feature}</span>
                     </li>
                   ))}
                 </ul>
-                <Button 
+                <Button
                   variant={pkg.popular ? "primary" : "secondary"}
                   size="lg"
                   onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-                  style={{ width: '100%' }}
+                  className="w-full"
                 >
                   Choose This Package
                 </Button>
@@ -797,11 +815,11 @@ ${formData.message}
                 />
               </div>
 
-              <Button 
+              <Button
                 type="submit"
                 variant="primary" 
                 size="lg"
-                style={{ width: '100%' }}
+                className="w-full"
               >
                 Schedule Free Site Assessment
               </Button>
@@ -812,3 +830,4 @@ ${formData.message}
     </>
   );
 }
+

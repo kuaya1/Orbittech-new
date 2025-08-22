@@ -354,3 +354,4 @@ export function Testimonials({ className }: TestimonialsProps) {
     </section>
   );
 }
+
