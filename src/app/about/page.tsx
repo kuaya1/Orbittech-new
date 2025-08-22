@@ -147,9 +147,9 @@ export default function AboutPage() {
                 marginBottom: 'var(--space-lg)',
               }}>
                 <p style={{ marginBottom: 'var(--space-lg)' }}>
-                  Orbit Tech was founded in 2018 when our founder, Michael Rodriguez, moved to rural 
-                  Loudoun County and experienced firsthand the frustration of poor internet connectivity. 
-                  As a telecommunications professional, he knew there had to be better solutions.
+                  Orbit Tech was founded when our founder experienced firsthand the frustration of poor 
+                  internet connectivity in the DMV area. Based in Reston, Virginia, we understand the 
+                  unique challenges of bringing reliable internet to both urban and rural communities.
                 </p>
                 <p style={{ marginBottom: 'var(--space-lg)' }}>
                   What started as helping neighbors and friends quickly grew into a mission: bringing 
@@ -220,6 +220,84 @@ export default function AboutPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Work Section */}
+      <section style={sectionStyles}>
+        <div style={containerStyles}>
+          <div style={{ textAlign: 'center', marginBottom: 'var(--space-4xl)' }}>
+            <h2 style={{
+              fontFamily: 'var(--font-headline)',
+              fontSize: 'var(--text-4xl)',
+              fontWeight: 'var(--font-weight-semibold)',
+              color: 'var(--brand-navy)',
+              marginBottom: 'var(--space-lg)',
+            }}>
+              Our Work Speaks for Itself
+            </h2>
+            <p style={{
+              fontSize: 'var(--text-xl)',
+              color: 'var(--text-secondary)',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: 'var(--leading-relaxed)',
+            }}>
+              Real installations from across the DMV area, showcasing our commitment to quality and professionalism.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: 'var(--space-xl)',
+          }}>
+            <div style={{
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
+            }}>
+              <img 
+                src="/PXL_20250715_170502892~2.jpg" 
+                alt="Professional Starlink installation by Orbit Tech team"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
+            <div style={{
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
+            }}>
+              <img 
+                src="/PXL_20250720_180554537~3.jpg" 
+                alt="Starlink dish installation with professional mounting"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
+            <div style={{
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
+            }}>
+              <img 
+                src="/PXL_20250802_161559918.RAW-01.COVER~2 (1).jpg" 
+                alt="Completed Starlink installation in Northern Virginia"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
             </div>
           </div>
         </div>
@@ -534,7 +612,7 @@ export default function AboutPage() {
               size="lg"
               onClick={() => window.location.href = 'tel:7035550742'}
             >
-              Call (703) 555-ORBIT
+              Call (571) 999-6915
             </Button>
           </div>
         </div>

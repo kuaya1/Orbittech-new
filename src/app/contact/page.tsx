@@ -31,22 +31,41 @@ export default function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      service: '',
-      message: '',
-      preferredContact: 'email'
-    });
+    try {
+      // For now, we'll use a simple mailto approach until backend is set up
+      const subject = encodeURIComponent(`New Quote Request from ${formData.name}`);
+      const body = encodeURIComponent(`
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Company: ${formData.company}
+Service: ${formData.service}
+Preferred Contact: ${formData.preferredContact}
+
+Message:
+${formData.message}
+      `);
+      
+      // Open email client with pre-filled information
+      window.location.href = `mailto:contact@theorbittech.com?subject=${subject}&body=${body}`;
+      
+      // Show success message
+      alert('Thank you for your message! Your email client should open with your request. We\'ll get back to you within 24 hours.');
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        service: '',
+        message: '',
+        preferredContact: 'email'
+      });
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('There was an error submitting your form. Please try calling us directly at (571) 999-6915.');
+    }
     
     setIsSubmitting(false);
   };
@@ -178,7 +197,7 @@ export default function ContactPage() {
                   alignItems: 'center',
                   gap: 'var(--space-sm)',
                 }}>
-                  📞 Phone
+                  Phone
                 </h3>
                 <p style={{
                   fontSize: 'var(--text-base)',
@@ -193,7 +212,7 @@ export default function ContactPage() {
                       fontWeight: 'var(--font-weight-medium)',
                     }}
                   >
-                    (703) 555-ORBIT
+                    (571) 999-6915
                   </a>
                 </p>
               </div>
@@ -210,7 +229,7 @@ export default function ContactPage() {
                   alignItems: 'center',
                   gap: 'var(--space-sm)',
                 }}>
-                  ✉️ Email
+                  Email
                 </h3>
                 <p style={{
                   fontSize: 'var(--text-base)',
@@ -218,14 +237,14 @@ export default function ContactPage() {
                   lineHeight: 'var(--leading-relaxed)',
                 }}>
                   <a 
-                    href="mailto:info@orbittech.com" 
+                    href="mailto:contact@theorbittech.com" 
                     style={{
                       color: 'var(--accent-blue)',
                       textDecoration: 'none',
                       fontWeight: 'var(--font-weight-medium)',
                     }}
                   >
-                    info@orbittech.com
+                    contact@theorbittech.com
                   </a>
                 </p>
               </div>
@@ -280,15 +299,15 @@ export default function ContactPage() {
                   onClick={() => window.location.href = 'tel:7035550742'}
                   style={{ width: '100%' }}
                 >
-                  📞 Call Now
+                  Call Now
                 </Button>
                 <Button 
                   variant="secondary" 
                   size="md"
-                  onClick={() => window.location.href = 'mailto:info@orbittech.com'}
+                  onClick={() => window.location.href = 'mailto:contact@theorbittech.com'}
                   style={{ width: '100%' }}
                 >
-                  ✉️ Send Email
+                  Send Email
                 </Button>
               </div>
             </div>
@@ -636,35 +655,38 @@ export default function ContactPage() {
             <div style={{
               width: '100%',
               height: '400px',
-              backgroundColor: 'var(--border-light)',
               borderRadius: 'var(--radius-lg)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              gap: 'var(--space-md)',
+              overflow: 'hidden',
+              position: 'relative',
             }}>
-              <div style={{ fontSize: '3rem' }}>🗺️</div>
+              <img 
+                src="/PXL_20250629_150923060.MP~2 (1).jpg" 
+                alt="Professional Starlink installation by Orbit Tech in the DMV area"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
               <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
+                color: 'white',
+                padding: 'var(--space-lg)',
                 textAlign: 'center',
-                color: 'var(--text-secondary)',
               }}>
                 <p style={{
                   fontSize: 'var(--text-lg)',
                   fontWeight: 'var(--font-weight-medium)',
                   marginBottom: 'var(--space-sm)',
                 }}>
-                  Interactive Google Map
+                  Serving the DMV Area
                 </p>
                 <p style={{ fontSize: 'var(--text-base)' }}>
-                  1234 Technology Drive, Reston, VA 20190
-                </p>
-                <p style={{ 
-                  fontSize: 'var(--text-sm)', 
-                  marginTop: 'var(--space-sm)',
-                  fontStyle: 'italic',
-                }}>
-                  Embedded Google Map will be integrated here
+                  Based in Reston, VA - Professional installations across Virginia, Maryland & DC
                 </p>
               </div>
             </div>

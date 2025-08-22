@@ -197,6 +197,66 @@ export default function StarlinkInstallationPage() {
         </div>
       </section>
 
+      {/* Installation Gallery */}
+      <section style={{
+        padding: 'var(--space-2xl) 0',
+        backgroundColor: 'var(--brand-white)',
+      }}>
+        <div style={containerStyles}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: 'var(--space-lg)',
+          }}>
+            <div style={{
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
+            }}>
+              <img 
+                src="/PXL_20250629_150948339~2.jpg" 
+                alt="Professional Starlink dish installation on residential property"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
+            <div style={{
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
+            }}>
+              <img 
+                src="/PXL_20250705_164801698~2 (1).jpg" 
+                alt="Starlink installation with professional cable management"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
+            <div style={{
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
+            }}>
+              <img 
+                src="/PXL_20250715_170521838~2 (1).jpg" 
+                alt="Completed Starlink installation in Northern Virginia"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Benefits Section */}
       <section style={sectionStyles}>
         <div style={containerStyles}>

@@ -73,7 +73,6 @@ export function Header() {
   };
 
   const mobileMenuButtonStyles: React.CSSProperties = {
-    display: 'none',
     flexDirection: 'column',
     gap: '4px',
     background: 'none',
@@ -120,30 +119,21 @@ export function Header() {
       <div style={containerStyles}>
         {/* Logo */}
         <Link href="/" style={logoStyles}>
-          <div style={{
-            width: '32px',
-            height: '32px',
-            backgroundColor: 'var(--accent-blue)',
-            borderRadius: 'var(--radius-md)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--text-inverse)',
-            fontSize: 'var(--text-lg)',
-            fontWeight: 'var(--font-weight-bold)',
-          }}>
-            O
-          </div>
-          Orbit Tech
+          <img 
+            src="/Starlink Dmv (33).png" 
+            alt="Orbit Tech - Professional Starlink Installation DMV"
+            style={{
+              height: '40px',
+              width: 'auto',
+            }}
+          />
         </Link>
 
         {/* Desktop Navigation */}
-        <nav style={{
-          ...navStyles,
-          '@media (max-width: 768px)': {
-            display: 'none',
-          }
-        } as React.CSSProperties}>
+        <nav 
+          style={navStyles}
+          className="desktop-nav"
+        >
           {navigationItems.map((item) => (
             <div key={item.label} style={{ position: 'relative' }}>
               <Link 
@@ -183,12 +173,8 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            style={{
-              ...mobileMenuButtonStyles,
-              '@media (max-width: 768px)': {
-                display: 'flex',
-              }
-            } as React.CSSProperties}
+            style={mobileMenuButtonStyles}
+            className="mobile-menu-button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle mobile menu"
           >

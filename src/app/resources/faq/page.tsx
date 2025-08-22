@@ -109,7 +109,7 @@ export default function FAQPage() {
       questions: [
         {
           question: 'How much do your services cost?',
-          answer: 'Pricing varies based on the service and complexity of installation. Starlink installations start at $299, mesh WiFi setups start at $399, and business solutions start at $299/month. We provide transparent, upfront pricing with no hidden fees. Contact us for a free quote tailored to your specific needs.'
+          answer: 'Professional Starlink installation costs $499 for standard residential setup. This includes site assessment, mounting hardware, cable routing, speed optimization, and 90-day warranty. The monthly Starlink service is $120 paid directly to Starlink. We provide transparent, upfront pricing with no hidden fees.'
         },
         {
           question: 'What kind of warranty do you offer?',
@@ -461,7 +461,7 @@ export default function FAQPage() {
                 size="lg"
                 onClick={() => window.location.href = 'tel:7035550742'}
               >
-                Call (703) 555-ORBIT
+                Call (571) 999-6915
               </Button>
             </div>
 

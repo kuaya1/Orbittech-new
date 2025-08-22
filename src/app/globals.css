@@ -86,3 +86,21 @@ body {
   line-height: var(--leading-normal);
   overflow-x: hidden;
 }
+/* Mobile Navigation Styles */
+.desktop-nav {
+  display: flex;
+}
+
+.mobile-menu-button {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+  
+  .mobile-menu-button {
+    display: flex;
+  }
+}

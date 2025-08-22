@@ -22,7 +22,7 @@ export default function Home() {
     {
       title: "Starlink Installation",
       description: "Professional Starlink satellite internet installation with optimal positioning for maximum speed and reliability.",
-      icon: "🛰️",
+      icon: "SATELLITE",
       features: [
         "Site survey and optimal placement",
         "Professional mounting and weatherproofing",
@@ -30,12 +30,12 @@ export default function Home() {
         "1-year installation warranty"
       ],
       href: "/services/starlink",
-      price: "$299"
+      price: "$499"
     },
     {
       title: "Mesh WiFi Systems",
       description: "Eliminate dead zones with enterprise-grade mesh WiFi systems that provide seamless coverage throughout your property.",
-      icon: "📶",
+      icon: "WIFI",
       features: [
         "Whole-home WiFi coverage",
         "Seamless device handoff",
@@ -48,7 +48,7 @@ export default function Home() {
     {
       title: "Business Solutions",
       description: "Scalable internet and networking solutions designed for businesses that demand reliability and performance.",
-      icon: "🏢",
+      icon: "BUSINESS",
       features: [
         "Redundant internet connections",
         "Enterprise-grade security",
@@ -63,24 +63,24 @@ export default function Home() {
   // Testimonials data
   const testimonials = [
     {
-      quote: "Orbit Tech transformed our rural property with Starlink. We went from dial-up speeds to blazing fast internet. Their team was professional and the installation was flawless.",
-      author: "Sarah Johnson",
-      location: "Leesburg, VA",
+      quote: "We called Orbit to ask about getting connectivity - they were out the next day... Eric is an expert! Goes the extra mile - and at a very reasonable price. Highly recommended!",
+      author: "Peter Baughan",
+      location: "Reston, VA",
       service: "Starlink Installation",
       rating: 5
     },
     {
-      quote: "Finally have WiFi in every corner of our home! The mesh system they installed works perfectly and their ongoing support has been exceptional.",
-      author: "Mike Chen",
-      location: "Reston, VA",
-      service: "Mesh WiFi Setup",
+      quote: "Fantastic job with a very challenging roof and receiver location. Eric provided options and worked with us to get the receiver and hiding associated wires and router in the perfect place for us.",
+      author: "Dave Wiseman",
+      location: "Northern Virginia",
+      service: "Starlink Installation",
       rating: 5
     },
     {
-      quote: "Our business needed reliable internet for our remote team. Orbit Tech delivered a solution that's been rock-solid for over a year now.",
-      author: "Jennifer Martinez",
-      location: "Rockville, MD",
-      service: "Business Solutions",
+      quote: "Eric went above and beyond to provide a great installation on my (difficult) roof in Annapolis. Exceeded my expectations and was very professional through the whole process.",
+      author: "Courtney G",
+      location: "Annapolis, MD",
+      service: "Starlink Installation",
       rating: 5
     }
   ];
@@ -143,6 +143,33 @@ export default function Home() {
             >
               View Services
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Hero Image Section */}
+      <section style={{
+        padding: 'var(--space-2xl) 0',
+        backgroundColor: 'var(--brand-white)',
+      }}>
+        <div style={containerStyles}>
+          <div style={{
+            borderRadius: 'var(--radius-2xl)',
+            overflow: 'hidden',
+            boxShadow: 'var(--shadow-xl)',
+          }}>
+            <picture>
+              <source media="(max-width: 768px)" srcSet="/hero mobile image.png" />
+              <img 
+                src="/hero desktop image.png" 
+                alt="Professional Starlink installation in the DMV area by Orbit Tech"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block',
+                }}
+              />
+            </picture>
           </div>
         </div>
       </section>
@@ -266,34 +293,100 @@ export default function Home() {
             </p>
           </div>
           <div style={{
-            backgroundColor: 'var(--brand-white)',
-            borderRadius: 'var(--radius-xl)',
-            padding: 'var(--space-2xl)',
-            textAlign: 'center',
-            boxShadow: 'var(--shadow-lg)',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: 'var(--space-lg)',
           }}>
             <div style={{
-              height: '300px',
-              backgroundColor: 'var(--border-light)',
-              borderRadius: 'var(--radius-lg)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 'var(--space-lg)',
+              backgroundColor: 'var(--brand-white)',
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
             }}>
-              <span style={{
-                fontSize: 'var(--text-lg)',
-                color: 'var(--text-muted)',
-              }}>
-                📍 Interactive Service Area Map Coming Soon
-              </span>
+              <img 
+                src="/PXL_20250621_153112500~2.jpg" 
+                alt="Professional Starlink installation on residential roof in Northern Virginia"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
+              <div style={{ padding: 'var(--space-lg)' }}>
+                <h3 style={{
+                  fontFamily: 'var(--font-headline)',
+                  fontSize: 'var(--text-lg)',
+                  fontWeight: 'var(--font-weight-semibold)',
+                  color: 'var(--brand-navy)',
+                  marginBottom: 'var(--space-sm)',
+                }}>
+                  Residential Installation
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
+                  Professional roof mount installation in Northern Virginia
+                </p>
+              </div>
             </div>
-            <p style={{
-              color: 'var(--text-secondary)',
-              fontSize: 'var(--text-base)',
+            <div style={{
+              backgroundColor: 'var(--brand-white)',
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
             }}>
-              Serving Northern Virginia, Maryland, and Washington DC with professional internet solutions.
-            </p>
+              <img 
+                src="/PXL_20250629_142412601~2.jpg" 
+                alt="Starlink dish installation with professional cable management"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
+              <div style={{ padding: 'var(--space-lg)' }}>
+                <h3 style={{
+                  fontFamily: 'var(--font-headline)',
+                  fontSize: 'var(--text-lg)',
+                  fontWeight: 'var(--font-weight-semibold)',
+                  color: 'var(--brand-navy)',
+                  marginBottom: 'var(--space-sm)',
+                }}>
+                  Professional Setup
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
+                  Clean cable management and optimal positioning
+                </p>
+              </div>
+            </div>
+            <div style={{
+              backgroundColor: 'var(--brand-white)',
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
+            }}>
+              <img 
+                src="/PXL_20250705_164749333~3.jpg" 
+                alt="Completed Starlink installation in DMV area"
+                style={{
+                  width: '100%',
+                  height: '250px',
+                  objectFit: 'cover',
+                }}
+              />
+              <div style={{ padding: 'var(--space-lg)' }}>
+                <h3 style={{
+                  fontFamily: 'var(--font-headline)',
+                  fontSize: 'var(--text-lg)',
+                  fontWeight: 'var(--font-weight-semibold)',
+                  color: 'var(--brand-navy)',
+                  marginBottom: 'var(--space-sm)',
+                }}>
+                  Quality Results
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
+                  Every installation backed by our 90-day warranty
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -483,9 +576,9 @@ export default function Home() {
             <Button 
               variant="tertiary" 
               size="lg"
-              onClick={() => window.location.href = 'tel:7035550742'}
+              onClick={() => window.location.href = 'tel:5719996915'}
             >
-              Call (703) 555-ORBIT
+              Call (571) 999-6915
             </Button>
           </div>
         </div>

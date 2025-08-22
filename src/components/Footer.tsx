@@ -218,8 +218,8 @@ export function Footer() {
               Reston, VA 20190
             </div>
             <div style={textStyles}>
-              <strong>Phone:</strong> (703) 555-ORBIT<br />
-              <strong>Email:</strong> info@orbittech.com
+              <strong>Phone:</strong> (571) 999-6915<br />
+              <strong>Email:</strong> contact@theorbittech.com
             </div>
             <div style={textStyles}>
               <strong>Hours:</strong><br />

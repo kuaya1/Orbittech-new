@@ -36,6 +36,11 @@ export const metadata: Metadata = {
     title: "Orbit Tech Solutions | Starlink & Internet Experts in DMV",
     description: "Professional Starlink installation, mesh WiFi setup, and business internet solutions in the DMV area.",
   },
+  icons: {
+    icon: "/Orbit tech favicon black (3).png",
+    shortcut: "/Orbit tech favicon black (3).png",
+    apple: "/Orbit tech favicon black (3).png",
+  },
 };
 
 interface RootLayoutProps {

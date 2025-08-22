@@ -558,7 +558,7 @@ export default function StarlinkVsISPsBlogPost() {
                   size="lg"
                   onClick={() => window.location.href = 'tel:7035550742'}
                 >
-                  Call (703) 555-ORBIT
+                  Call (571) 999-6915
                 </Button>
               </div>
             </div>
