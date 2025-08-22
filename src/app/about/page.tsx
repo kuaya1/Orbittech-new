@@ -610,7 +610,7 @@ export default function AboutPage() {
             <Button 
               variant="tertiary" 
               size="lg"
-              onClick={() => window.location.href = 'tel:7035550742'}
+              onClick={() => window.location.href = 'tel:5719996915'}
             >
               Call (571) 999-6915
             </Button>

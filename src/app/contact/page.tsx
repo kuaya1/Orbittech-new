@@ -205,7 +205,7 @@ ${formData.message}
                   lineHeight: 'var(--leading-relaxed)',
                 }}>
                   <a 
-                    href="tel:7035550742" 
+                    href="tel:5719996915" 
                     style={{
                       color: 'var(--accent-blue)',
                       textDecoration: 'none',
@@ -296,7 +296,7 @@ ${formData.message}
                 <Button 
                   variant="primary" 
                   size="md"
-                  onClick={() => window.location.href = 'tel:7035550742'}
+                  onClick={() => window.location.href = 'tel:5719996915'}
                   style={{ width: '100%' }}
                 >
                   Call Now

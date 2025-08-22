@@ -139,8 +139,38 @@ export default function MeshWiFiSetupPage() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Mesh WiFi setup form submitted:', formData);
-    alert('Thank you for your interest in mesh WiFi setup! We\'ll contact you within 24 hours to schedule your free WiFi analysis.');
+    
+    try {
+      const subject = encodeURIComponent(`Mesh WiFi Setup Request from ${formData.name}`);
+      const body = encodeURIComponent(`
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Address: ${formData.address}
+Property Type: ${formData.propertyType}
+Current Internet: ${formData.currentInternet}
+
+Message:
+${formData.message}
+      `);
+      
+      window.location.href = `mailto:contact@theorbittech.com?subject=${subject}&body=${body}`;
+      alert('Thank you for your interest in mesh WiFi setup! Your email client should open with your request. We\'ll contact you within 24 hours to schedule your free WiFi analysis.');
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        propertyType: '',
+        currentInternet: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('There was an error submitting your form. Please try calling us directly at (571) 999-6915.');
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

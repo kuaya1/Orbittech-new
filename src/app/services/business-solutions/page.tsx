@@ -141,8 +141,38 @@ export default function BusinessSolutionsPage() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Business solutions form submitted:', formData);
-    alert('Thank you for your interest in our business solutions! We\'ll contact you within 4 hours to schedule your free business assessment.');
+    
+    try {
+      const subject = encodeURIComponent(`Business Solutions Request from ${formData.name}`);
+      const body = encodeURIComponent(`
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Address: ${formData.address}
+Property Type: ${formData.propertyType}
+Current Internet: ${formData.currentInternet}
+
+Message:
+${formData.message}
+      `);
+      
+      window.location.href = `mailto:contact@theorbittech.com?subject=${subject}&body=${body}`;
+      alert('Thank you for your interest in our business solutions! Your email client should open with your request. We\'ll contact you within 4 hours to schedule your free business assessment.');
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        propertyType: '',
+        currentInternet: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('There was an error submitting your form. Please try calling us directly at (571) 999-6915.');
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

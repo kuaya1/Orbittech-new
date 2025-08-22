@@ -163,9 +163,9 @@ export default function WashingtonDCPage() {
             <Button 
               variant="tertiary" 
               size="lg"
-              onClick={() => window.location.href = 'tel:2025550742'}
+              onClick={() => window.location.href = 'tel:5719996915'}
             >
-              Call (202) 555-ORBIT
+              Call (571) 999-6915
             </Button>
           </div>
         </div>
@@ -604,9 +604,9 @@ export default function WashingtonDCPage() {
             <Button 
               variant="tertiary" 
               size="lg"
-              onClick={() => window.location.href = 'tel:2025550742'}
+              onClick={() => window.location.href = 'tel:5719996915'}
             >
-              Call (202) 555-ORBIT
+              Call (571) 999-6915
             </Button>
           </div>
           <p style={{

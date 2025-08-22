@@ -175,7 +175,10 @@ export function Header() {
           <button
             style={mobileMenuButtonStyles}
             className="mobile-menu-button"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => {
+              console.log('Mobile menu toggle clicked, current state:', isMobileMenuOpen);
+              setIsMobileMenuOpen(!isMobileMenuOpen);
+            }}
             aria-label="Toggle mobile menu"
           >
             <div style={hamburgerLineStyles}></div>
