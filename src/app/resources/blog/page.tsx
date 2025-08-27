@@ -201,10 +201,10 @@ export default function BlogPage() {
 
                 <h2 style={{
                   fontFamily: 'var(--font-headline)',
-                  fontSize: 'var(--text-2xl)',
-                  fontWeight: 'var(--font-weight-semibold)',
-                  color: 'var(--brand-navy)',
-                  lineHeight: 'var(--leading-tight)',
+                  fontSize: 'var(--text-3xl)',
+                  fontWeight: 'var(--font-weight-bold)',
+                  color: 'var(--text-primary)',
+                  lineHeight: 'var(--leading-snug)',
                   marginBottom: 'var(--space-md)',
                 }}>
                   {featuredPost.title}
@@ -367,17 +367,17 @@ export default function BlogPage() {
 
                   <h3 style={{
                     fontFamily: 'var(--font-headline)',
-                    fontSize: 'var(--text-lg)',
-                    fontWeight: 'var(--font-weight-semibold)',
-                    color: 'var(--brand-navy)',
-                    lineHeight: 'var(--leading-tight)',
+                    fontSize: 'var(--text-xl)',
+                    fontWeight: 'var(--font-weight-bold)',
+                    color: 'var(--text-primary)',
+                    lineHeight: 'var(--leading-snug)',
                     marginBottom: 'var(--space-md)',
                   }}>
                     {post.title}
                   </h3>
 
                   <p style={{
-                    fontSize: 'var(--text-sm)',
+                    fontSize: 'var(--text-base)',
                     color: 'var(--text-secondary)',
                     lineHeight: 'var(--leading-relaxed)',
                     marginBottom: 'var(--space-lg)',
