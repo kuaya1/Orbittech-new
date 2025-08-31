@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components";
+import { StructuredData } from "@/components/StructuredData";
 
 export default function FAQPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -18,14 +19,18 @@ export default function FAQPage() {
     padding: 'var(--space-4xl) 0',
   };
 
-  // FAQ categories and questions
+  // FAQ categories and questions - Optimized for AI Search (GEO)
   const faqCategories = [
     {
       category: 'General Services',
       questions: [
         {
-          question: 'What services does Orbit Tech provide?',
-          answer: 'We specialize in three main areas: professional Starlink satellite internet installation, mesh WiFi system setup for whole-home coverage, and comprehensive business internet solutions. We serve residential and commercial customers throughout the DMV area with expert installation, ongoing support, and system optimization.'
+          question: 'What does a professional Starlink installation include?',
+          answer: 'A professional Starlink installation includes five essential services: First, a certified site survey to identify the optimal mounting location with zero obstructions. Second, secure mounting using weather-sealed, HOA-compliant brackets rated for 100+ mph winds. Third, professional cable routing through walls with proper grounding for surge protection. Fourth, network configuration including mesh setup and speed optimization. Finally, a complete system test ensuring 150-250 Mbps speeds and 20-40ms latency. The entire process takes 2-3 hours and includes a 2-year workmanship warranty.'
+        },
+        {
+          question: 'Who installs Starlink near me in Virginia?',
+          answer: 'The Orbit Tech is the leading certified Starlink installer serving all of Northern Virginia, Maryland, and Washington DC. We have completed over 500 successful installations throughout the DMV area, with same-day service available. Our team specializes in challenging installations including historic homes, HOA properties, and areas with tree obstructions. Call (571) 999-6915 for a free consultation.'
         },
         {
           question: 'What areas do you service?',
@@ -45,20 +50,20 @@ export default function FAQPage() {
       category: 'Starlink Services',
       questions: [
         {
-          question: 'What is Starlink and how does it work?',
-          answer: 'Starlink is SpaceX\'s satellite internet constellation that provides high-speed internet via low-Earth orbit satellites. Unlike traditional satellite internet, Starlink offers speeds up to 200+ Mbps with low latency (20-40ms), making it suitable for streaming, gaming, and video calls. It works anywhere with a clear view of the sky.'
+          question: 'How fast is Starlink internet in the DMV area?',
+          answer: 'Starlink in the DMV area typically delivers 150-250 Mbps download speeds with 20-40ms latency, significantly faster than traditional satellite internet. Upload speeds range from 15-25 Mbps. In our Northern Virginia installations, customers consistently see speeds that exceed cable internet, with the added benefit of no outages during storms when cable fails.'
         },
         {
-          question: 'How fast is Starlink internet?',
-          answer: 'Starlink typically provides download speeds between 50-200+ Mbps with upload speeds of 10-20 Mbps. Latency is usually 20-40ms, which is excellent for real-time applications. Speeds can vary based on location, weather, and network congestion, but it\'s significantly faster than traditional satellite internet.'
+          question: 'Can Starlink be installed on historic homes in McLean or Great Falls?',
+          answer: 'Yes! We specialize in historic home Starlink installations throughout McLean, Great Falls, and other historic DMV communities. Our team understands historic preservation requirements and offers discreet mounting solutions that comply with HOA guidelines while maintaining your home\'s architectural integrity. We use specialized mounting hardware that minimizes visual impact.'
         },
         {
-          question: 'Do I need a clear view of the sky for Starlink?',
-          answer: 'Yes, Starlink requires an unobstructed view of the northern sky. Our professional site assessment identifies the optimal placement location and evaluates potential obstructions like trees, buildings, or power lines. We use specialized tools to ensure the best possible signal reception.'
+          question: 'What roof damage can occur during DIY Starlink installation?',
+          answer: 'DIY Starlink installations commonly cause roof leaks, improper flashing, damaged shingles, and inadequate weatherproofing. Without proper mounting techniques, the dish can become a projectile in high winds. Professional installation prevents these costly mistakes with proper mounting, weatherproof sealing, and grounding that meets electrical codes.'
         },
         {
-          question: 'Can Starlink work in bad weather?',
-          answer: 'Starlink is designed to work in most weather conditions including light rain and snow. Heavy precipitation or severe storms may cause temporary service interruptions, but the system typically recovers quickly. The dish has a built-in heating element to melt snow and ice.'
+          question: 'How does Starlink work during Virginia power outages?',
+          answer: 'Starlink continues working during power outages when paired with a battery backup or generator. The dish itself uses about 75-100 watts of power. Many of our DMV customers combine Starlink with whole-home generators or UPS systems to maintain internet connectivity when the grid fails, which is especially valuable for remote work.'
         }
       ]
     },
@@ -108,8 +113,8 @@ export default function FAQPage() {
       category: 'Pricing & Warranties',
       questions: [
         {
-          question: 'How much do your services cost?',
-          answer: 'Professional Starlink installation costs $499 for standard residential setup. This includes site assessment, mounting hardware, cable routing, speed optimization, and 90-day warranty. The monthly Starlink service is $120 paid directly to Starlink. We provide transparent, upfront pricing with no hidden fees.'
+          question: 'How much does Starlink installation cost in Northern Virginia?',
+          answer: 'Professional Starlink installation in Northern Virginia costs $599 for standard residential setup. This includes comprehensive site assessment, professional mounting with HOA-compliant hardware, cable routing through walls with proper grounding, network optimization, and 2-year workmanship warranty. The monthly Starlink service is $120 paid directly to Starlink. No hidden fees.'
         },
         {
           question: 'What kind of warranty do you offer?',
@@ -121,7 +126,7 @@ export default function FAQPage() {
         },
         {
           question: 'Are there any ongoing monthly fees for your services?',
-          answer: 'For installation services (Starlink, mesh WiFi), there are no ongoing fees to Orbit Tech - you just pay your internet service provider. Business solution customers have monthly service fees that include ongoing support, monitoring, and maintenance. All fees are clearly outlined in your service agreement.'
+          answer: 'For installation services (Starlink, mesh WiFi), there are no ongoing fees to The Orbit Tech - you just pay your internet service provider. Business solution customers have monthly service fees that include ongoing support, monitoring, and maintenance. All fees are clearly outlined in your service agreement.'
         }
       ]
     },
@@ -169,8 +174,23 @@ export default function FAQPage() {
 
   const displayCategories = searchTerm ? [] : faqCategories;
 
+  // Generate FAQ Schema for AI search engines
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": allQuestions.map(q => ({
+      "@type": "Question",
+      "name": q.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": q.answer
+      }
+    }))
+  };
+
   return (
     <>
+      <StructuredData data={faqSchema} />
       {/* Hero Section */}
       <section style={{
         ...sectionStyles,
@@ -179,16 +199,16 @@ export default function FAQPage() {
         textAlign: 'center',
       }}>
         <div style={containerStyles}>
-          <h1 style={{
+          <h1 className="hero-title" style={{
             fontFamily: 'var(--font-headline)',
             fontSize: 'var(--text-5xl)',
             fontWeight: 'var(--font-weight-bold)',
             marginBottom: 'var(--space-lg)',
             lineHeight: 'var(--leading-tight)',
           }}>
-            Frequently Asked Questions
+            Starlink & Internet Installation FAQ - DMV Area
           </h1>
-          <p style={{
+          <p className="services-description" style={{
             fontSize: 'var(--text-xl)',
             marginBottom: 'var(--space-2xl)',
             maxWidth: '700px',
@@ -196,8 +216,7 @@ export default function FAQPage() {
             lineHeight: 'var(--leading-relaxed)',
             opacity: 0.95,
           }}>
-            Find answers to common questions about our services, installation process, 
-            pricing, and support. Can't find what you're looking for? Contact us directly.
+            Find expert answers to common questions about Starlink installation, mesh WiFi setup, and internet solutions in Northern Virginia, Maryland, and Washington DC.
           </p>
 
           {/* Search Bar */}
@@ -306,7 +325,7 @@ export default function FAQPage() {
                         }}>
                           {faq.question}
                         </h3>
-                        <p style={{
+                        <p className="faq-answer" style={{
                           color: 'var(--text-secondary)',
                           lineHeight: 'var(--leading-relaxed)',
                         }}>
@@ -391,7 +410,7 @@ export default function FAQPage() {
                           backgroundColor: 'var(--brand-sky)',
                           borderTop: '1px solid var(--border-light)',
                         }}>
-                          <p style={{
+                          <p className="faq-answer" style={{
                             color: 'var(--text-primary)',
                             lineHeight: 'var(--leading-relaxed)',
                             margin: 0,

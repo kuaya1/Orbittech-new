@@ -125,7 +125,7 @@ export default function Home() {
             marginBottom: 'var(--space-lg)',
             lineHeight: 'var(--leading-tight)',
           }}>
-            Tired of Comcast Outages? Get Starlink Installed This Week
+            Escape Comcast Outages Forever - Get Starlink Installed This Week in DMV
           </h1>
           <p style={{
             fontSize: 'var(--text-xl)',
@@ -135,8 +135,8 @@ export default function Home() {
             lineHeight: 'var(--leading-relaxed)',
             opacity: 0.95,
           }}>
-            Professional installation by DMV's only certified Starlink experts. 
-            <strong> 200+ Mbps guaranteed.</strong> Stop waiting for Fios - get connected this week.
+            Professional installation by DMV's certified Starlink experts. 
+            <strong>500+ installs, 200+ Mbps guaranteed.</strong> Call (571) 999-6915 - same-day service available.
           </p>
           <div style={{
             display: 'flex',
