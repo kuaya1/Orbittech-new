@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Fortress - Interactive Network Topology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 200px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 20px 0;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            font-size: 0.75em;
+            color: #6b7280;
+            text-transform: uppercase;
+            padding: 0 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .sidebar-item {
+            padding: 8px 20px;
+            font-size: 0.9em;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background: #f3f4f6;
+        }
+
+        .sidebar-item.active {
+            background: #e0f2fe;
+            color: #0284c7;
+            border-left: 3px solid #0284c7;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            padding: 15px 30px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85em;
+            color: #6b7280;
+            cursor: pointer;
+        }
+
+        .toggle:hover {
+            color: #374151;
+        }
+
+        .toggle input[type="checkbox"] {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .topology {
+            position: relative;
+            background: white;
+            padding: 40px;
+            min-height: calc(100vh - 100px);
+            flex: 1;
+        }
+
+        /* SVG for connection lines */
+        .connection-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connection-line {
+            stroke: #cbd5e0;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Layer sections */
+        .layer {
+            margin-bottom: 80px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .layer-content {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Node base styles */
+        .node {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 120px;
+            max-width: 140px;
+            text-align: center;
+            position: relative;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .node:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .node-icon {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+        }
+
+        .node-title {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 4px;
+            font-size: 0.85em;
+            line-height: 1.3;
+        }
+
+        .node-subtitle {
+            font-size: 0.7em;
+            color: #9ca3af;
+            margin-bottom: 8px;
+        }
+
+        .node-specs {
+            font-size: 0.65em;
+            color: #6b7280;
+            line-height: 1.6;
+            text-align: left;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .node-specs div {
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Status indicator */
+        .status-indicator {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.offline {
+            background: #9ca3af;
+            box-shadow: none;
+            animation: none;
+        }
+
+        /* Node type variations */
+        .node.isp {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+        }
+
+        .node.isp .node-title {
+            color: white;
+        }
+
+        .node.gateway, .node.switch, .node.ap, .node.proxmox, 
+        .node.vm, .node.lxc, .node.storage, .node.camera, 
+        .node.iot, .node.client {
+            background: white;
+            border-color: #e5e7eb;
+        }
+
+        /* VLAN badges */
+        .vlan-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.6em;
+            margin: 2px;
+            border: 1px solid #bae6fd;
+            font-weight: 500;
+        }
+
+        .vlan-badge.isolated {
+            background: #fee2e2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .vlan-badge.offline-capable {
+            background: #d1fae5;
+            color: #059669;
+            border-color: #a7f3d0;
+        }
+
+        /* Signal strength */
+        .device-signal {
+            font-size: 0.7em;
+            color: #10b981;
+            font-weight: 500;
+        }
+
+        .device-signal.weak {
+            color: #f59e0b;
+        }
+
+        .device-signal.poor {
+            color: #ef4444;
+        }
+
+        /* Device icons for end devices */
+        .device-icon {
+            width: 50px;
+            height: 70px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin: 0 auto 8px;
+        }
+
+        .device-icon.phone {
+            width: 35px;
+            height: 65px;
+            border-radius: 8px;
+        }
+
+        .device-icon.tablet {
+            width: 55px;
+            height: 75px;
+        }
+
+        /* Tooltip */
+        .node-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.7em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .node-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #1f2937;
+        }
+
+        .node:hover .node-tooltip {
+            opacity: 1;
+        }
+
+        /* Detail Panel (Master Architect Side Panel) */
+        .detail-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .detail-panel.open {
+            right: 0;
+        }
+
+        .detail-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .detail-header h2 {
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .detail-header button {
+            color: white !important;
+        }
+
+        .detail-content {
+            padding: 20px;
+        }
+
+        .detail-row {
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .detail-row strong {
+            color: #374151;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-row code, .detail-row input[type="text"] {
+            background: #f3f4f6;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #1f2937;
+            border: 1px solid #e5e7eb;
+        }
+
+        .detail-row input[type="text"] {
+            flex: 1;
+            min-width: 200px;
+            margin-left: 10px;
+        }
+
+        .detail-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #f3f4f6;
+        }
+
+        .detail-section h3 {
+            font-size: 1em;
+            color: #1f2937;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .detail-section ul li {
+            padding: 8px 12px;
+            background: #f9fafb;
+            border-left: 3px solid #3b82f6;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #374151;
+        }
+
+        .detail-section textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-family: 'Courier New', monospace;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .firewall-rules li {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .detail-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .badge-sovereign {
+            background: #fef3c7;
+            color: #f59e0b;
+            border-color: #fde68a;
+        }
+
+        .badge-offline {
+            background: #d1fae5;
+            color: #059669;
+            border-color: #a7f3d0;
+        }
+
+        .badge-isolated {
+            background: #fee2e2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .badge-status-online {
+            background: #d1fae5;
+            color: #047857;
+            border-color: #a7f3d0;
+        }
+
+        .badge-status-offline {
+            background: #f3f4f6;
+            color: #6b7280;
+            border-color: #e5e7eb;
+        }
+
+        /* Mastery Controls */
+        .mastery-controls-bar {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+            padding-left: 20px;
+            border-left: 1px solid #e5e7eb;
+        }
+
+        .btn-primary, .btn-success, .btn-danger {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .mastery-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* VLAN Filter Highlight */
+        .vlan-filter-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .vlan-filter-item:hover {
+            background: #f3f4f6;
+        }
+
+        .vlan-filter-item.active {
+            background: #e0f2fe !important;
+            color: #0284c7 !important;
+            border-left: 3px solid #0284c7;
+        }
+
+        /* Layer Accordion (3-Layer Model) */
+        .layer-accordion {
+            margin-bottom: 10px;
+        }
+
+        .layer-accordion-header {
+            background: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 5px;
+        }
+
+        .layer-accordion-header:hover {
+            background: #f9fafb;
+            border-color: #cbd5e0;
+        }
+
+        .layer-accordion-header h2 {
+            margin: 0;
+            font-size: 1.1em;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .layer-accordion-header .layer-icon {
+            font-size: 1.5em;
+        }
+
+        .layer-accordion-header .layer-count {
+            background: #e5e7eb;
+            color: #6b7280;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .layer-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .layer-accordion-content.expanded {
+            max-height: 5000px;
+        }
+
+        .layer-description {
+            padding: 10px 20px;
+            background: #f9fafb;
+            border-left: 3px solid #3b82f6;
+            margin: 10px 20px 20px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        @media (max-width: 1200px) {
+            .layer-content {
+                gap: 20px;
+            }
+            .node {
+                min-width: 150px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .topology {
+                padding: 20px;
+            }
+            .node {
+                min-width: 140px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3>Networks</h3>
+            <div class="sidebar-item active">
+                <span>⊙</span>
+                <span>All Networks</span>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Status</h3>
+            <div class="sidebar-item">
+                <input type="checkbox" checked style="margin: 0;">
+                <span>Online</span>
+            </div>
+            <div class="sidebar-item">
+                <input type="checkbox" style="margin: 0;">
+                <span>Offline</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="controls">
+                <div class="toggle-group">
+                    <label class="toggle">
+                        <input type="checkbox" id="showVlans" checked>
+                        <span>VLANs</span>
+                    </label>
+                    <label class="toggle">
+                        <input type="checkbox" id="showSpecs" checked>
+                        <span>Specs</span>
+                    </label>
+                    <label class="toggle">
+                        <input type="checkbox" id="showOffline" checked>
+                        <span>Offline</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="topology">
+                <svg class="connection-svg" id="connectionsSvg"></svg>
+                
+                <!-- 3-Layer Accordion Model -->
+                <div class="layer-accordion">
+                    <div class="layer-accordion-header" onclick="toggleLayer(1)">
+                        <h2>
+                            <span class="layer-icon">🛰️</span>
+                            LAYER 1: The Foundation
+                        </h2>
+                        <span class="layer-count" id="layer-1-count">0 devices</span>
+                    </div>
+                    <div class="layer-accordion-content expanded" id="layer-1-content">
+                        <div class="layer-description">
+                            The internet gateway - your connection to the outside world. Includes ISP connections with automatic failover for maximum uptime.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layer-accordion">
+                    <div class="layer-accordion-header" onclick="toggleLayer(2)">
+                        <h2>
+                            <span class="layer-icon">🔥</span>
+                            LAYER 2: The Infrastructure (Digital Fortress Core)
+                        </h2>
+                        <span class="layer-count" id="layer-2-count">0 devices</span>
+                    </div>
+                    <div class="layer-accordion-content expanded" id="layer-2-content">
+                        <div class="layer-description">
+                            The fortress backbone - UniFi gateway, switches, access points, and Proxmox hypervisors. This layer controls security, routing, and virtualization.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layer-accordion">
+                    <div class="layer-accordion-header" onclick="toggleLayer(3)">
+                        <h2>
+                            <span class="layer-icon">👑</span>
+                            LAYER 3: The Experience (Sovereign AI Core & Clients)
+                        </h2>
+                        <span class="layer-count" id="layer-3-count">0 devices</span>
+                    </div>
+                    <div class="layer-accordion-content expanded" id="layer-3-content">
+                        <div class="layer-description">
+                            Virtual machines, LXC containers, IoT devices, and client endpoints. Your sovereign services run here - 100% local, 100% private. Home Assistant orchestrates automation, Ollama powers private AI, and Frigate handles intelligent video surveillance. All operating offline-capable for true sovereignty.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // DIGITAL FORTRESS DATA (The Sovereign Core)
+        // ========================================
+        const fortressData = {
+            "nodes": [
+                // LAYER 1: Foundation (ISP/Internet)
+                { 
+                    "id": "comcast-isp", 
+                    "layer": 1, 
+                    "type": "isp", 
+                    "title": "Comcast Cable", 
+                    "icon": "🛰️",
+                    "specs": ["1 Gbps Down", "100 Mbps Up", "Auto-failover"],
+                    "vlan": "PUBLIC",
+                    "ipAddress": "DHCP",
+                    "status": "online",
+                    "notes": "Primary ISP connection with automatic failover capability"
+                },
+                { 
+                    "id": "tmobile-backup", 
+                    "layer": 1, 
+                    "type": "isp", 
+                    "title": "5G T-Mobile", 
+                    "icon": "📶",
+                    "specs": ["300 Mbps", "Cellular Backup"],
+                    "vlan": "PUBLIC",
+                    "ipAddress": "DHCP",
+                    "status": "online",
+                    "notes": "Backup internet connection for redundancy"
+                },
+                
+                // LAYER 2: Infrastructure (Digital Fortress Core)
+                { 
+                    "id": "udm-se", 
+                    "layer": 2, 
+                    "type": "gateway", 
+                    "title": "Home lab",
+                    "subtitle": "UniFi Dream Machine SE", 
+                    "icon": "🔥",
+                    "specs": ["IDS/IPS Enabled", "Zero Trust", "WireGuard VPN"],
+                    "vlan": "MANAGEMENT_10",
+                    "ipAddress": "192.168.1.1",
+                    "macAddress": "00:00:00:00:00:01",
+                    "firewallRules": ["Block IoT Internet", "Allow VPN In", "DPI Analytics"],
+                    "status": "online",
+                    "sovereign": true,
+                    "notes": "Gateway & Firewall - The fortress entrance"
+                },
+                { 
+                    "id": "switch-24-poe", 
+                    "layer": 2, 
+                    "type": "switch", 
+                    "title": "UniFi Switch 24 PoE",
+                    "subtitle": "Main Distribution",
+                    "icon": "⚡",
+                    "specs": ["24 Ports", "16 PoE (250W)", "10G SFP+"],
+                    "vlan": "MANAGEMENT_10",
+                    "ipAddress": "192.168.1.2",
+                    "macAddress": "00:00:00:00:00:02",
+                    "status": "online",
+                    "notes": "Main network distribution switch"
+                },
+                { 
+                    "id": "proxmox-1", 
+                    "layer": 2, 
+                    "type": "proxmox", 
+                    "title": "Proxmox Node 1",
+                    "subtitle": "Primary Server (Basement)",
+                    "icon": "🖥️",
+                    "specs": ["64GB DDR4 RAM", "AMD 16C/32T", "2TB NVMe Gen4", "RTX 4060 Ti 16GB"],
+                    "vlan": "MANAGEMENT_10",
+                    "ipAddress": "192.168.1.10",
+                    "macAddress": "00:00:00:00:00:10",
+                    "firewallRules": ["Allow SSH from Admin VLAN", "Block Internet Out"],
+                    "status": "online",
+                    "sovereign": true,
+                    "offlineCapable": true,
+                    "notes": "Primary Proxmox hypervisor - The fortress foundation"
+                },
+                { 
+                    "id": "proxmox-2", 
+                    "layer": 2, 
+                    "type": "proxmox", 
+                    "title": "Proxmox Node 2",
+                    "subtitle": "HA Replica",
+                    "icon": "🖥️",
+                    "specs": ["32GB DDR4 RAM", "Intel 8C/16T", "1TB NVMe", "Live Migration"],
+                    "vlan": "MANAGEMENT_10",
+                    "ipAddress": "192.168.1.11",
+                    "macAddress": "00:00:00:00:00:11",
+                    "status": "online",
+                    "sovereign": true,
+                    "offlineCapable": true,
+                    "notes": "HA replica node for high availability"
+                },
+                { 
+                    "id": "nas-synology", 
+                    "layer": 2, 
+                    "type": "storage", 
+                    "title": "Synology DS920+",
+                    "subtitle": "NAS Storage",
+                    "icon": "🗄️",
+                    "specs": ["16TB RAID5", "VM Backups", "File Server", "Encrypted"],
+                    "vlan": "STORAGE_60",
+                    "ipAddress": "192.168.60.10",
+                    "macAddress": "00:00:00:00:00:60",
+                    "firewallRules": ["Isolated from Internet", "Allow Backup Protocol"],
+                    "status": "online",
+                    "isolated": true,
+                    "offlineCapable": true,
+                    "notes": "Network attached storage - completely isolated from internet"
+                },
+                { 
+                    "id": "u7-pro-living", 
+                    "layer": 2, 
+                    "type": "ap", 
+                    "title": "UniFi U7 Pro",
+                    "subtitle": "Living Room",
+                    "icon": "📡",
+                    "specs": ["WiFi 7 (6 GHz)", "WPA3", "PoE Powered"],
+                    "vlan": "MANAGEMENT_10",
+                    "ipAddress": "192.168.1.20",
+                    "macAddress": "00:00:00:00:00:20",
+                    "status": "online",
+                    "notes": "WiFi 7 access point for main living area"
+                },
+                { 
+                    "id": "u7-lite", 
+                    "layer": 2, 
+                    "type": "ap", 
+                    "title": "U7 Lite",
+                    "subtitle": "Office AP",
+                    "icon": "📡",
+                    "specs": ["WiFi 7", "WPA3", "Multi-VLAN"],
+                    "vlan": "MANAGEMENT_10",
+                    "ipAddress": "192.168.1.21",
+                    "macAddress": "00:00:00:00:00:21",
+                    "status": "online",
+                    "notes": "Office WiFi access point"
+                },
+                
+                // LAYER 3: Experience (Sovereign AI Core & Clients)
+                { 
+                    "id": "ha-vm", 
+                    "layer": 3, 
+                    "type": "vm", 
+                    "title": "Home Assistant",
+                    "subtitle": "VM 100",
+                    "icon": "🏠",
+                    "specs": ["4GB RAM", "32GB Disk", "Local Automation"],
+                    "vlan": "IOT_20",
+                    "ipAddress": "192.168.20.100",
+                    "parent": "proxmox-1",
+                    "firewallRules": ["Block Internet Out", "Allow Local Discovery", "Allow MQTT"],
+                    "status": "online",
+                    "sovereign": true,
+                    "offlineCapable": true,
+                    "notes": "Home automation hub - operates 100% locally, no cloud required"
+                },
+                { 
+                    "id": "ollama-lxc", 
+                    "layer": 3, 
+                    "type": "lxc", 
+                    "title": "Ollama AI",
+                    "subtitle": "LXC 200",
+                    "icon": "🤖",
+                    "specs": ["16GB RAM", "Llama 3.2", "100% Private"],
+                    "vlan": "IOT_20",
+                    "ipAddress": "192.168.20.200",
+                    "parent": "proxmox-1",
+                    "firewallRules": ["Block Internet Out", "Allow Local API Calls"],
+                    "status": "online",
+                    "sovereign": true,
+                    "offlineCapable": true,
+                    "isolated": true,
+                    "notes": "Private Local AI - The Sovereign AI Core. Zero cloud, zero telemetry."
+                },
+                { 
+                    "id": "pixel-phone", 
+                    "layer": 3, 
+                    "type": "client", 
+                    "title": "Pixel-19-ProXL",
+                    "icon": "📱",
+                    "specs": ["-49 dBm"],
+                    "vlan": "TRUSTED_30",
+                    "ipAddress": "192.168.30.51",
+                    "status": "online",
+                    "signalStrength": "-49 dBm",
+                    "connectionType": "WiFi 6GHz"
+                }
+            ],
+            "connections": [
+                { "from": "comcast-isp", "to": "udm-se", "link": "1 Gbps" },
+                { "from": "tmobile-backup", "to": "udm-se", "link": "Failover" },
+                { "from": "udm-se", "to": "switch-24-poe", "link": "10G SFP+" },
+                { "from": "udm-se", "to": "proxmox-1", "link": "10G Fiber" },
+                { "from": "udm-se", "to": "proxmox-2", "link": "10G Fiber" },
+                { "from": "udm-se", "to": "nas-synology", "link": "1G" },
+                { "from": "switch-24-poe", "to": "u7-pro-living", "link": "PoE 2.5G" },
+                { "from": "switch-24-poe", "to": "u7-lite", "link": "PoE 2.5G" },
+                { "from": "proxmox-1", "to": "ha-vm" },
+                { "from": "proxmox-1", "to": "ollama-lxc" },
+                { "from": "u7-lite", "to": "pixel-phone", "link": "WiFi 7" }
+            ],
+            "vlans": {
+                "MANAGEMENT_10": {
+                    "id": 10,
+                    "name": "Management",
+                    "description": "Network equipment and Proxmox hosts",
+                    "subnet": "192.168.1.0/24",
+                    "color": "#3b82f6",
+                    "firewallRules": ["Allow SSH from Admin", "Block Internet Access"]
+                },
+                "IOT_20": {
+                    "id": 20,
+                    "name": "Smart Home (Sovereign IoT)",
+                    "description": "Home automation devices - Internet blocked",
+                    "subnet": "192.168.20.0/24",
+                    "color": "#10b981",
+                    "isolated": true,
+                    "firewallRules": ["Block Internet Out", "Allow MQTT/Local", "Allow mDNS"]
+                },
+                "TRUSTED_30": {
+                    "id": 30,
+                    "name": "Trusted Clients",
+                    "description": "Family devices and workstations",
+                    "subnet": "192.168.30.0/24",
+                    "color": "#06b6d4",
+                    "firewallRules": ["Allow Internet", "Allow LAN Access"]
+                },
+                "STORAGE_60": {
+                    "id": 60,
+                    "name": "Storage",
+                    "description": "NAS and backup systems - Isolated",
+                    "subnet": "192.168.60.0/24",
+                    "color": "#a855f7",
+                    "isolated": true,
+                    "firewallRules": ["Block Internet", "Allow Backup Protocols"]
+                }
+            }
+        };
+
+        // ========================================
+        // MASTERY MODE STATE
+        // ========================================
+        let masteryMode = false;
+        let selectedNode = null;
+        let activeVlanFilter = null;
+
+        // ========================================
+        // RENDER ENGINE (Dynamic Generation)
+        // ========================================
+        function renderTopology() {
+            const layerGroups = { 1: [], 2: [], 3: [] };
+            fortressData.nodes.forEach(node => layerGroups[node.layer].push(node));
+
+            Object.keys(layerGroups).sort().forEach(layerNum => {
+                const nodes = layerGroups[layerNum];
+                const contentContainer = document.getElementById(`layer-${layerNum}-content`);
+                if (!contentContainer) return;
+
+                const existingLayers = contentContainer.querySelectorAll('.layer');
+                existingLayers.forEach(layer => layer.remove());
+
+                const countEl = document.getElementById(`layer-${layerNum}-count`);
+                if (countEl) {
+                    countEl.textContent = `${nodes.length} device${nodes.length !== 1 ? 's' : ''}`;
+                }
+
+                if (nodes.length === 0) return;
+
+                const layerDiv = document.createElement('div');
+                layerDiv.className = 'layer';
+                layerDiv.dataset.layer = layerNum;
+
+                const layerContent = document.createElement('div');
+                layerContent.className = 'layer-content';
+
+                if (layerNum == 3) {
+                    layerContent.style.border = '2px dashed #cbd5e0';
+                    layerContent.style.borderRadius = '16px';
+                    layerContent.style.padding = '30px';
+                }
+
+                nodes.forEach(node => {
+                    const nodeEl = createNodeElement(node);
+                    layerContent.appendChild(nodeEl);
+                });
+
+                layerDiv.appendChild(layerContent);
+                contentContainer.appendChild(layerDiv);
+            });
+
+            setTimeout(() => drawConnections(), 100);
+        }
+
+        function toggleLayer(layerNum) {
+            const content = document.getElementById(`layer-${layerNum}-content`);
+            if (content) {
+                content.classList.toggle('expanded');
+                setTimeout(() => drawConnections(), 350);
+            }
+        }
+
+        // REFINEMENT #2: Efficient Icons - Use node.icon directly from JSON
+        function createNodeElement(node) {
+            const nodeDiv = document.createElement('div');
+            nodeDiv.className = `node ${node.type}`;
+            nodeDiv.id = node.id;
+            nodeDiv.dataset.nodeId = node.id;
+            
+            if (activeVlanFilter && node.vlan !== activeVlanFilter) {
+                nodeDiv.style.opacity = '0.3';
+            }
+
+            // Status indicator
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status-indicator ${node.status === 'offline' ? 'offline' : ''}`;
+            nodeDiv.appendChild(statusDiv);
+
+            // Tooltip
+            const tooltip = document.createElement('div');
+            tooltip.className = 'node-tooltip';
+            tooltip.textContent = node.notes || node.title;
+            nodeDiv.appendChild(tooltip);
+
+            // Icon - EFFICIENT: Always use node.icon from JSON
+            const iconDiv = document.createElement('div');
+            if (node.type === 'client' || node.type === 'camera' || node.type === 'iot') {
+                iconDiv.className = 'device-icon';
+                if (node.type === 'client' && node.icon === '📱') {
+                    if (node.title.includes('Phone') || node.title.includes('iPhone') || node.title.includes('Pixel')) {
+                        iconDiv.classList.add('phone');
+                    } else if (node.title.includes('iPad') || node.title.includes('tablet')) {
+                        iconDiv.classList.add('tablet');
+                    }
+                }
+            } else {
+                iconDiv.className = 'node-icon';
+            }
+            iconDiv.textContent = node.icon || '❓';  // Use node.icon - single source of truth!
+            nodeDiv.appendChild(iconDiv);
+
+            // Title
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'node-title';
+            titleDiv.textContent = node.title;
+            nodeDiv.appendChild(titleDiv);
+
+            // Subtitle
+            if (node.subtitle) {
+                const subtitleDiv = document.createElement('div');
+                subtitleDiv.className = 'node-subtitle';
+                subtitleDiv.textContent = node.subtitle;
+                nodeDiv.appendChild(subtitleDiv);
+            }
+
+            // Signal strength for clients
+            if (node.signalStrength) {
+                const signalDiv = document.createElement('div');
+                signalDiv.className = 'device-signal';
+                const dbm = parseInt(node.signalStrength);
+                if (dbm > -60) {
+                    // Good signal
+                } else if (dbm > -70) {
+                    signalDiv.classList.add('weak');
+                } else {
+                    signalDiv.classList.add('poor');
+                }
+                signalDiv.textContent = node.signalStrength;
+                nodeDiv.appendChild(signalDiv);
+            }
+
+            // Specs
+            if (node.specs && node.specs.length > 0 && !node.signalStrength) {
+                const specsDiv = document.createElement('div');
+                specsDiv.className = 'node-specs';
+                node.specs.forEach(spec => {
+                    const specItem = document.createElement('div');
+                    specItem.textContent = spec;
+                    specsDiv.appendChild(specItem);
+                });
+
+                if (node.vlan) {
+                    const vlanDiv = document.createElement('div');
+                    const vlanBadge = document.createElement('span');
+                    vlanBadge.className = 'vlan-badge';
+                    if (node.isolated) vlanBadge.classList.add('isolated');
+                    vlanBadge.textContent = node.vlan;
+                    vlanDiv.appendChild(vlanBadge);
+
+                    if (node.offlineCapable) {
+                        const offlineBadge = document.createElement('span');
+                        offlineBadge.className = 'vlan-badge offline-capable';
+                        offlineBadge.textContent = '✓ Offline';
+                        vlanDiv.appendChild(offlineBadge);
+                    }
+                    
+                    if (node.sovereign) {
+                        const sovereignBadge = document.createElement('span');
+                        sovereignBadge.className = 'vlan-badge offline-capable';
+                        sovereignBadge.textContent = '👑 Sovereign';
+                        sovereignBadge.style.background = '#fef3c7';
+                        sovereignBadge.style.color = '#f59e0b';
+                        sovereignBadge.style.borderColor = '#fde68a';
+                        vlanDiv.appendChild(sovereignBadge);
+                    }
+
+                    specsDiv.appendChild(vlanDiv);
+                }
+
+                nodeDiv.appendChild(specsDiv);
+            }
+
+            nodeDiv.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openDetailPanel(node);
+            });
+
+            return nodeDiv;
+        }
+
+        // ========================================
+        // SMART CONNECTION DRAWING
+        // ========================================
+        function drawConnections() {
+            const svg = document.getElementById('connectionsSvg');
+            if (!svg) return;
+
+            svg.innerHTML = '';
+
+            fortressData.connections.forEach(conn => {
+                const fromEl = document.getElementById(conn.from);
+                const toEl = document.getElementById(conn.to);
+
+                if (!fromEl || !toEl) return;
+
+                const fromRect = fromEl.getBoundingClientRect();
+                const toRect = toEl.getBoundingClientRect();
+                const svgRect = svg.getBoundingClientRect();
+
+                const startX = fromRect.left + fromRect.width / 2 - svgRect.left;
+                const startY = fromRect.bottom - svgRect.top;
+                const endX = toRect.left + toRect.width / 2 - svgRect.left;
+                const endY = toRect.top - svgRect.top;
+
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', startX);
+                line.setAttribute('y1', startY);
+                line.setAttribute('x2', endX);
+                line.setAttribute('y2', endY);
+                line.setAttribute('class', 'connection-line');
+                
+                if (activeVlanFilter) {
+                    const fromNode = fortressData.nodes.find(n => n.id === conn.from);
+                    const toNode = fortressData.nodes.find(n => n.id === conn.to);
+                    if (fromNode?.vlan === activeVlanFilter || toNode?.vlan === activeVlanFilter) {
+                        line.style.stroke = fortressData.vlans[activeVlanFilter]?.color || '#3b82f6';
+                        line.style.strokeWidth = '3';
+                    } else {
+                        line.style.opacity = '0.2';
+                    }
+                }
+
+                svg.appendChild(line);
+            });
+        }
+
+        // ========================================
+        // DETAIL PANEL (Master Architect View)
+        // ========================================
+        function openDetailPanel(node) {
+            selectedNode = node;
+            
+            let panel = document.getElementById('detail-panel');
+            if (!panel) {
+                panel = document.createElement('div');
+                panel.id = 'detail-panel';
+                panel.className = 'detail-panel';
+                document.body.appendChild(panel);
+            }
+
+            panel.innerHTML = `
+                <div class="detail-header">
+                    <h2>${node.icon} ${node.title}</h2>
+                    <button onclick="closeDetailPanel()" style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: white;">×</button>
+                </div>
+                <div class="detail-content">
+                    ${node.subtitle ? `<div class="detail-row"><strong>Type:</strong> ${node.subtitle}</div>` : ''}
+                    ${node.vlan ? `<div class="detail-row"><strong>VLAN:</strong> <span class="vlan-badge ${node.isolated ? 'isolated' : ''}">${node.vlan}</span></div>` : ''}
+                    ${node.ipAddress ? `<div class="detail-row"><strong>IP Address:</strong> <code>${node.ipAddress}</code></div>` : ''}
+                    ${node.macAddress ? `<div class="detail-row"><strong>MAC Address:</strong> <code>${node.macAddress}</code></div>` : ''}
+                    ${node.parent ? `<div class="detail-row"><strong>Parent Host:</strong> ${fortressData.nodes.find(n => n.id === node.parent)?.title || node.parent}</div>` : ''}
+                    ${node.connectionType ? `<div class="detail-row"><strong>Connection:</strong> ${node.connectionType}</div>` : ''}
+                    ${node.signalStrength ? `<div class="detail-row"><strong>Signal:</strong> ${node.signalStrength}</div>` : ''}
+                    
+                    <div class="detail-section">
+                        <h3>Specifications</h3>
+                        <ul>
+                            ${node.specs.map(spec => `<li>${spec}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    ${node.firewallRules ? `
+                        <div class="detail-section">
+                            <h3>🔥 Fortress Walls (Firewall Rules)</h3>
+                            <ul class="firewall-rules">
+                                ${node.firewallRules.map(rule => `<li>${rule}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+                    
+                    ${node.notes ? `
+                        <div class="detail-section">
+                            <h3>📝 Architect's Notes</h3>
+                            <p>${node.notes}</p>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="detail-badges">
+                        ${node.sovereign ? '<span class="badge badge-sovereign">👑 Sovereign</span>' : ''}
+                        ${node.offlineCapable ? '<span class="badge badge-offline">✓ Offline Capable</span>' : ''}
+                        ${node.isolated ? '<span class="badge badge-isolated">🔒 Internet Isolated</span>' : ''}
+                        <span class="badge badge-status-${node.status}">${node.status === 'online' ? '🟢' : '🔴'} ${node.status}</span>
+                    </div>
+                    
+                    ${masteryMode ? `
+                        <div class="detail-section mastery-controls">
+                            <h3>🎯 Mastery Controls</h3>
+                            <button onclick="editNode('${node.id}')" class="btn-primary">Edit Device</button>
+                            <button onclick="deleteNode('${node.id}')" class="btn-danger">Remove Device</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            panel.classList.add('open');
+        }
+
+        function closeDetailPanel() {
+            const panel = document.getElementById('detail-panel');
+            if (panel) {
+                panel.classList.remove('open');
+                setTimeout(() => panel.remove(), 300);
+            }
+            selectedNode = null;
+        }
+
+        // ========================================
+        // VLAN FILTERING
+        // ========================================
+        function filterByVlan(vlanId) {
+            activeVlanFilter = activeVlanFilter === vlanId ? null : vlanId;
+            renderTopology();
+            
+            document.querySelectorAll('.vlan-filter-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.vlan === vlanId && activeVlanFilter);
+            });
+        }
+
+        // ========================================
+        // MASTERY MODE
+        // ========================================
+        function toggleMasteryMode() {
+            masteryMode = !masteryMode;
+            const btn = document.getElementById('mastery-toggle');
+            if (btn) {
+                btn.textContent = masteryMode ? '🔓 Exit Mastery Mode' : '🔐 Mastery Mode';
+                btn.style.background = masteryMode ? '#ef4444' : '#3b82f6';
+            }
+            
+            if (masteryMode) {
+                showMasteryControls();
+            } else {
+                hideMasteryControls();
+            }
+        }
+
+        function showMasteryControls() {
+            let controls = document.getElementById('mastery-controls');
+            if (!controls) {
+                controls = document.createElement('div');
+                controls.id = 'mastery-controls';
+                controls.className = 'mastery-controls-bar';
+                controls.innerHTML = `
+                    <button onclick="addNewDevice()" class="btn-success">+ Add Device</button>
+                    <button onclick="exportBlueprint()" class="btn-primary">💾 Export Blueprint</button>
+                    <button onclick="importBlueprint()" class="btn-primary">📂 Import Blueprint</button>
+                `;
+                document.querySelector('.controls').appendChild(controls);
+            }
+        }
+
+        function hideMasteryControls() {
+            const controls = document.getElementById('mastery-controls');
+            if (controls) controls.remove();
+        }
+
+        function addNewDevice() {
+            const newNode = {
+                id: `new-device-${Date.now()}`,
+                layer: 3,
+                type: 'client',
+                title: 'New Device',
+                icon: '❓',
+                specs: ['Configure me'],
+                vlan: 'TRUSTED_30',
+                status: 'offline',
+                notes: 'New device - configure in Mastery Mode'
+            };
+            
+            fortressData.nodes.push(newNode);
+            renderTopology();
+            openDetailPanel(newNode);
+        }
+
+        function exportBlueprint() {
+            const dataStr = JSON.stringify(fortressData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `digital-fortress-blueprint-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importBlueprint() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const imported = JSON.parse(event.target.result);
+                        Object.assign(fortressData, imported);
+                        renderTopology();
+                        alert('✓ Blueprint imported successfully!');
+                    } catch (err) {
+                        alert('✗ Error importing blueprint: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // REFINEMENT #3: Mastery Editing - Real edit function with form
+        function editNode(nodeId) {
+            const node = fortressData.nodes.find(n => n.id === nodeId);
+            if (!node) return;
+
+            const panel = document.getElementById('detail-panel');
+            if (!panel) return;
+
+            // Transform panel into editable form
+            panel.innerHTML = `
+                <div class="detail-header">
+                    <h2>✏️ Edit Device: ${node.title}</h2>
+                    <button onclick="closeDetailPanel()" style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: white;">×</button>
+                </div>
+                <div class="detail-content">
+                    <form id="edit-form" onsubmit="saveNodeEdits(event, '${nodeId}')">
+                        <div class="detail-section">
+                            <h3>Basic Information</h3>
+                            <div class="detail-row">
+                                <strong>Title:</strong>
+                                <input type="text" id="edit-title" value="${node.title}" required>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Subtitle:</strong>
+                                <input type="text" id="edit-subtitle" value="${node.subtitle || ''}">
+                            </div>
+                            <div class="detail-row">
+                                <strong>IP Address:</strong>
+                                <input type="text" id="edit-ip" value="${node.ipAddress || ''}">
+                            </div>
+                            <div class="detail-row">
+                                <strong>MAC Address:</strong>
+                                <input type="text" id="edit-mac" value="${node.macAddress || ''}">
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h3>Specifications</h3>
+                            <textarea id="edit-specs" placeholder="One spec per line">${node.specs.join('\n')}</textarea>
+                        </div>
+
+                        <div class="detail-section">
+                            <h3>Architect's Notes</h3>
+                            <textarea id="edit-notes" placeholder="Notes about this device">${node.notes || ''}</textarea>
+                        </div>
+
+                        <div class="detail-section mastery-controls">
+                            <button type="submit" class="btn-success">💾 Save Changes</button>
+                            <button type="button" onclick="openDetailPanel(fortressData.nodes.find(n => n.id === '${nodeId}'))" class="btn-primary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+        }
+
+        function saveNodeEdits(event, nodeId) {
+            event.preventDefault();
+            
+            const node = fortressData.nodes.find(n => n.id === nodeId);
+            if (!node) return;
+
+            // Update node from form inputs
+            node.title = document.getElementById('edit-title').value;
+            node.subtitle = document.getElementById('edit-subtitle').value;
+            node.ipAddress = document.getElementById('edit-ip').value;
+            node.macAddress = document.getElementById('edit-mac').value;
+            
+            // Update specs (split by newlines, filter empty)
+            const specsText = document.getElementById('edit-specs').value;
+            node.specs = specsText.split('\n').filter(s => s.trim()).map(s => s.trim());
+            
+            // Update notes
+            node.notes = document.getElementById('edit-notes').value;
+
+            // Close panel and re-render
+            closeDetailPanel();
+            renderTopology();
+            
+            alert('✓ Device updated successfully!');
+        }
+
+        function deleteNode(nodeId) {
+            if (confirm('Remove this device from the fortress?')) {
+                const index = fortressData.nodes.findIndex(n => n.id === nodeId);
+                if (index !== -1) {
+                    fortressData.nodes.splice(index, 1);
+                    renderTopology();
+                    closeDetailPanel();
+                }
+            }
+        }
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTopology();
+
+            // Build VLAN filters in sidebar
+            const vlanSection = document.createElement('div');
+            vlanSection.innerHTML = `
+                <h3 style="margin-top: 30px;">Fortress VLANs</h3>
+                ${Object.keys(fortressData.vlans).map(vlanKey => {
+                    const vlan = fortressData.vlans[vlanKey];
+                    return `
+                        <div class="sidebar-item vlan-filter-item" data-vlan="${vlanKey}" onclick="filterByVlan('${vlanKey}')">
+                            <span style="color: ${vlan.color};">●</span>
+                            <span>${vlan.name}</span>
+                        </div>
+                    `;
+                }).join('')}
+            `;
+            document.querySelector('.sidebar').appendChild(vlanSection);
+
+            // Add mastery toggle
+            const masteryBtn = document.createElement('button');
+            masteryBtn.id = 'mastery-toggle';
+            masteryBtn.textContent = '🔐 Mastery Mode';
+            masteryBtn.onclick = toggleMasteryMode;
+            masteryBtn.style.cssText = 'margin-left: auto; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85em;';
+            document.querySelector('.controls .toggle-group').appendChild(masteryBtn);
+
+            window.addEventListener('resize', drawConnections);
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.node') && !e.target.closest('.detail-panel')) {
+                    closeDetailPanel();
+                }
+            });
+
+            const showVlans = document.getElementById('showVlans');
+            const showSpecs = document.getElementById('showSpecs');
+
+            if (showVlans) {
+                showVlans.addEventListener('change', (e) => {
+                    document.querySelectorAll('.vlan-badge').forEach(badge => {
+                        if (!badge.textContent.includes('Sovereign')) {
+                            badge.style.display = e.target.checked ? 'inline-block' : 'none';
+                        }
+                    });
+                });
+            }
+
+            if (showSpecs) {
+                showSpecs.addEventListener('change', (e) => {
+                    document.querySelectorAll('.node-specs').forEach(spec => {
+                        spec.style.display = e.target.checked ? 'block' : 'none';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
